@@ -24,26 +24,6 @@ import scala.concurrent.duration.Duration
 
 object MongoConfiguration {
 
-  val mongoClient: MongoClient = MongoClient("mongodb://localhost:27017/DbIMS")
-  val database: MongoDatabase = mongoClient.getDatabase("DbIMS")
-
-  val collection: MongoCollection[Document] = database.getCollection("customer");
-
-  collection.insertOne(
-    Document("forename" -> "Chris", "qty" -> 100, "tags" -> Seq("cotton"), "size" -> Document("h" -> 28, "w" -> 35.5, "uom" -> "cm"))
-  )
-
-  val observable = collection.find(equal("forename", "Chris"))
-
-  println(observable)
-
-
-
-
-
-
-
-
 
 
 }
