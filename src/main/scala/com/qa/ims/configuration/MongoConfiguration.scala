@@ -24,58 +24,22 @@ import scala.concurrent.duration.Duration
 
 object MongoConfiguration {
 
-  val uri: String = "mongodb://localhost:27017"
-  System.setProperty("org.mongodb.async.type", "netty")
-  val client: MongoClient = MongoClient(uri)
-  val db: MongoDatabase = client.getDatabase("DbIMS")
+  val mongoClient: MongoClient = MongoClient("mongodb://localhost:27017/DbIMS")
+  val database: MongoDatabase = mongoClient.getDatabase("DbIMS")
 
-  def connection7(driver: AsyncDriver): Future[MongoConnection] = for {
-    parsedUri <- MongoConnection.fromString(uri)
-    con <- driver.connect(parsedUri)
-  } yield con
+  val collection: MongoCollection[Document] = database.getCollection("customer");
 
+  collection.insertOne(
+    Document("forename" -> "Chris", "qty" -> 100, "tags" -> Seq("cotton"), "size" -> Document("h" -> 28, "w" -> 35.5, "uom" -> "cm"))
+  )
 
-  def troubleshootAuth() = {
-    val strictUri = "mongodb://localhost:27017"
-    val dbname = "DbIMS"
-    val user = "root"
-    val pass = "root"
-    val driver = AsyncDriver()
+  val observable = collection.find(equal("forename", "Chris"))
 
-    driver.connect(strictUri).flatMap {
-      _.authenticate(dbname, user, pass)
-    }.onComplete {
-      case res => println(s"Auth: $res")
-    }
-  }
-
-  troubleshootAuth()
-
-  println(troubleshootAuth)
-
-
-  def dbFromConnection(connection: MongoConnection): Future[BSONCollection] =
-    connection.database("DbIMS").
-      map(_.collection("customers"))
+  println(observable)
 
 
 
 
-  val document1 = BSONDocument(
-    "firstName" -> "Chris",
-    "lastName" -> "Red",
-    "age" -> 24)
-
-  def testInsert(personColl: BSONCollection) = {
-    val future2 = personColl.insert.one(document1)
-
-    future2.onComplete {
-      case Failure(e) => throw e
-      case Success(writeResult) => {
-        println(s"successfully inserted document: $writeResult")
-      }
-    }
-  }
 
 
 
