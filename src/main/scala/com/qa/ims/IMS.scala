@@ -2,17 +2,17 @@ package com.qa.ims
 
 
 
+import com.qa.ims.configuration.MongoConfiguration
 import com.qa.ims.controller.CustomerController
-import com.qa.ims.controller.CustomerController.{createCustomer, findCustomerByName}
+import com.qa.ims.controller.CustomerController.{createCustomer, findAllCustomers, findCustomerById, findCustomerByName, findCustomerByUsername}
 import com.qa.ims.model.{Customer, CustomerModel}
 import org.mongodb.scala.bson.BsonObjectId
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
-import reactivemongo.api.bson.BSONDocumentReader
+import reactivemongo.api.bson.{BSONDocumentReader, BSONString}
 import reactivemongo.bson.BSONObjectID
 
 
 object IMS {
-
 
 
   def main(args: Array[String]): Unit = {
@@ -20,10 +20,19 @@ object IMS {
     println("1. Working")
 
 
-    CustomerController
+    MongoConfiguration
 
-    //createCustomer(CustomerModel("Chris", "Red", 24))
+    //createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), "Chris123", "Chris", "Red", 24))
+
+
+    // findCustomerById("5f6a21350100002d7167cb63")
+
+    findAllCustomers
+
     findCustomerByName("Chris")
+
+    findCustomerByUsername("Chris123")
+
 
 
 

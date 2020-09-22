@@ -25,6 +25,7 @@ import scala.concurrent.duration.Duration
 
 object MongoConfiguration {
 
+
   val mongoUri = "mongodb://localhost:27017"
 
   import ExecutionContext.Implicits.global
@@ -40,5 +41,7 @@ object MongoConfiguration {
 
   implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
   implicit def customerReader: BSONDocumentReader[CustomerModel] = Macros.reader[CustomerModel]
+
+
 
 }
