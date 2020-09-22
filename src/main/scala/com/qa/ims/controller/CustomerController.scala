@@ -66,15 +66,6 @@ object CustomerController {
     }
   }
 
-  /*
-  def updateName(id: ObjectId, newName: String): Unit = {
-    customerCollection.updateOne(equal("_id", id), set("forename", newName)).toFuture.onComplete {
-      case Success(value) => println(s"The value has been updated to: $value")
-      case Failure(error) => println(error)
-    }
-  }
-*/
-
   def updateCustomerByUsername(username: String, forename: String, surname: String, age: Int): Unit = {
     val selector = document("username" -> username)
     val modifier = document("username" -> username, "forename" -> forename, "surname" -> surname, "age" -> age)
@@ -85,27 +76,5 @@ object CustomerController {
   def deleteByUsername(username: String) = {
     val selector = document("username" -> username)
     customerCollection.flatMap(_.delete.one(selector))
-
   }
-
-
-  /*
-      def findCustomerById(id: String): CustomerModel = {
-        val cid = BSONObjectID.parse(id)
-        val query = BSONDocument("_id" -> cid.get)
-
-        val customer: Future[List[CustomerModel]] = customerCollection.flatMap(_.find(query))
-          .cursor[CustomerModel]
-          .collect[List](-1, Cursor.FailOnError[List[CustomerModel]]())
-
-       customer andThen {
-          case Success(value) => {
-            value[0]
-          }
-          case Failure(e) => {
-            None
-          }
-        }
-  */
-
 }
