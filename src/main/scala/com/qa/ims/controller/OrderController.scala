@@ -1,16 +1,44 @@
 package com.qa.ims.controller
 
-import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderWriter}
-import com.qa.ims.model.OrderModel
+import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter, productCollection}
+import com.qa.ims.model.{OrderModel, ProductModel}
+import reactivemongo.api.Cursor
+import reactivemongo.api.bson.{BSONDocument, document}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 object OrderController {
 
   // Create
   def createOrder(order: OrderModel): Future[Unit] =
     orderCollection.flatMap(_.insert.one(order).map(_ => {}))
+
+  // Read
+  def findAllOrders: Unit = {
+    val findFuture: Future[List[OrderModel]] = orderCollection.flatMap(_.find(document())
+      .cursor[OrderModel]()
+      .collect[List](-1, Cursor.FailOnError[List[OrderModel]]()))
+    findFuture onComplete {
+      case Success(orderOption) => println(orderOption.toString)
+      case Failure(f) => {}
+    }
+  }
+
+  def findOrderByBuyer(username: String) {
+    val selector = BSONDocument("username" -> username)
+    val findFuture = orderCollection.flatMap(_.find(selector).one)
+    findFuture onComplete {
+      case Success(orderOption) => println(orderOption.get)
+      case Failure(f) => {}
+    }
+  }
+
+  def deleteOrderByBuyer(username: String)  = {
+    val selector = document("username" -> username)
+    orderCollection.flatMap(_.delete.one(selector))
+  }
 
 
 

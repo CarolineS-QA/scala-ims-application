@@ -21,7 +21,7 @@ import scala.util.{Failure, Success}
 object ProductController {
 
   // Create
-  def productCustomer(product: ProductModel): Future[Unit] =
+  def createProduct(product: ProductModel): Future[Unit] =
     productCollection.flatMap(_.insert.one(product).map(_ => {}))
 
   // Read
