@@ -2,6 +2,7 @@ package com.qa.ims.configuration
 
 import java.util.concurrent.TimeUnit
 
+import com.qa.ims.model.CustomerModel
 import reactivemongo.api.bson.collection.BSONCollection
 
 import scala.concurrent.{Await, ExecutionContext, Future}
@@ -24,6 +25,20 @@ import scala.concurrent.duration.Duration
 
 object MongoConfiguration {
 
+  val mongoUri = "mongodb://localhost:27017"
 
+  import ExecutionContext.Implicits.global
+
+  val driver = AsyncDriver()
+  val parsedUri = MongoConnection.fromString(mongoUri)
+
+  val connection = parsedUri.flatMap(driver.connect(_))
+  def db: Future[DB] = connection.flatMap(_.database("DbIMS"))
+  def customerCollection: Future[BSONCollection] = db.map(_.collection("customer"))
+  def productCollection: Future[BSONCollection] = db.map(_.collection("product"))
+  def orderCollection: Future[BSONCollection] = db.map(_.collection("order"))
+
+  implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
+  implicit def customerReader: BSONDocumentReader[CustomerModel] = Macros.reader[CustomerModel]
 
 }
