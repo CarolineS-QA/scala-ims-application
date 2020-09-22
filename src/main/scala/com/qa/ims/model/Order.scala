@@ -9,10 +9,11 @@ case class OrderModel (
    _id: BSONString,
    username: String,
    products: List[String],
-   date: String
+   date: String,
+   totalPrice: BigDecimal
 
 )
 
 object Order {
-  def apply(username: String, products: List[String], date: String): OrderModel = Order(username, products, date)
+  def apply(username: String, products: List[String], date: String, totalPrice: BigDecimal): OrderModel = Order(username, products, date, totalPrice)
 }

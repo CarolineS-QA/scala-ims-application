@@ -62,7 +62,7 @@ object IMS {
 
     /// Order CRUD
 
-     createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", List("Tesco Pork Bites", "Tesco Flapjacks"), Calendar.getInstance().getTime.toString()))
+    createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", List("Tesco Pork Bites", "Tesco Flapjacks"), "", BigDecimal(0)))
 
     //findAllOrders
 

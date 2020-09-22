@@ -1,11 +1,13 @@
 package com.qa.ims.controller
 
+import akka.stream.scaladsl.{Sink, Source}
 import com.qa.ims.configuration.MongoConfiguration.{customerCollection, productCollection, productReader, productWriter}
 import com.qa.ims.model.{CustomerModel, ProductModel}
 import org.mongodb.scala.bson.ObjectId
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Updates.set
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
+import reactivemongo.akkastream.State
 import reactivemongo.api.bson.collection.BSONCollection
 import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentReader, toDocumentWriter}
 import reactivemongo.api.{AsyncDriver, MongoConnection}
@@ -43,6 +45,21 @@ object ProductController {
       case Failure(f) => {}
     }
   }
+
+  /*
+  def findProductPriceByName(name: String) {
+    val selector = BSONDocument("name" -> name)
+    val retrieved: Source[ProductModel, Future[State]] =
+      customerCollection.flatMap(_.find(document()).cursor[ProductModel]())
+
+
+    val findFuture = productCollection.flatMap(_.find(selector, "price").one)
+    findFuture onComplete {
+      case Success(productOption) => println(retrieved.runWith(Sink.seq[BSONDocument]))
+      case Failure(f) => {}
+    }
+  }
+*/
 
   def findProductByCategory(category: String) {
     val selector = BSONDocument("category" -> category)
