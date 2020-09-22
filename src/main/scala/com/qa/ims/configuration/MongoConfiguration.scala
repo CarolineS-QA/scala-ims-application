@@ -2,7 +2,7 @@ package com.qa.ims.configuration
 
 import java.util.concurrent.TimeUnit
 
-import com.qa.ims.model.{CustomerModel, ProductModel}
+import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import reactivemongo.api.bson.collection.BSONCollection
 
 import scala.concurrent.{Await, ExecutionContext, Future}
@@ -45,8 +45,8 @@ object MongoConfiguration {
   implicit def productWriter: BSONDocumentWriter[ProductModel] = Macros.writer[ProductModel]
   implicit def productReader: BSONDocumentReader[ProductModel] = Macros.reader[ProductModel]
 
-  //implicit def orderWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
-  //implicit def orderReader: BSONDocumentReader[CustomerModel] = Macros.reader[CustomerModel]
+  implicit def orderWriter: BSONDocumentWriter[OrderModel] = Macros.writer[OrderModel]
+  implicit def orderReader: BSONDocumentReader[OrderModel] = Macros.reader[OrderModel]
 
 
 
