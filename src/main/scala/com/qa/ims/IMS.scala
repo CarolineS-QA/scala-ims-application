@@ -5,7 +5,7 @@ package com.qa.ims
 import com.qa.ims.configuration.MongoConfiguration
 import com.qa.ims.configuration.MongoConfiguration.customerCollection
 import com.qa.ims.controller.CustomerController
-import com.qa.ims.controller.CustomerController.{createCustomer, findAllCustomers, findCustomerById, findCustomerByName, findCustomerByUsername, updateCustomerByUsername}
+import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerById, findCustomerByName, findCustomerByUsername, updateCustomerByUsername}
 import com.qa.ims.model.{Customer, CustomerModel}
 import org.mongodb.scala.bson.BsonObjectId
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
@@ -28,13 +28,15 @@ object IMS {
 
     // findCustomerById("5f6a21350100002d7167cb63")
 
-    updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
+    //updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
 
-    findAllCustomers
+    //findAllCustomers
 
-    findCustomerByName("Chris")
+    //findCustomerByName("Chris")
 
-    findCustomerByUsername("Chris123")
+    //findCustomerByUsername("Chris123")
+
+    deleteByUsername("Chris123")
 
 
 

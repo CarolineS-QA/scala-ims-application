@@ -82,28 +82,30 @@ object CustomerController {
     customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteByUsername(personColl: BSONCollection) =
-    personColl.delete.one(BSONDocument("username" -> "Chris123"))
+  def deleteByUsername(username: String) = {
+    val selector = document("username" -> username)
+    customerCollection.flatMap(_.delete.one(selector))
+
+  }
 
 
+  /*
+      def findCustomerById(id: String): CustomerModel = {
+        val cid = BSONObjectID.parse(id)
+        val query = BSONDocument("_id" -> cid.get)
 
-/*
-    def findCustomerById(id: String): CustomerModel = {
-      val cid = BSONObjectID.parse(id)
-      val query = BSONDocument("_id" -> cid.get)
+        val customer: Future[List[CustomerModel]] = customerCollection.flatMap(_.find(query))
+          .cursor[CustomerModel]
+          .collect[List](-1, Cursor.FailOnError[List[CustomerModel]]())
 
-      val customer: Future[List[CustomerModel]] = customerCollection.flatMap(_.find(query))
-        .cursor[CustomerModel]
-        .collect[List](-1, Cursor.FailOnError[List[CustomerModel]]())
-
-     customer andThen {
-        case Success(value) => {
-          value[0]
+       customer andThen {
+          case Success(value) => {
+            value[0]
+          }
+          case Failure(e) => {
+            None
+          }
         }
-        case Failure(e) => {
-          None
-        }
-      }
-*/
+  */
 
 }
