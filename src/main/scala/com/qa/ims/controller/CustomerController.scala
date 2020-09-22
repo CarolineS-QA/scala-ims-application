@@ -4,9 +4,12 @@ package com.qa.ims.controller
 
 import com.qa.ims.configuration.MongoConfiguration.{customerCollection, customerReader, customerWriter}
 import com.qa.ims.model.CustomerModel
+import org.mongodb.scala.bson.ObjectId
+import org.mongodb.scala.model.Filters.equal
+import org.mongodb.scala.model.Updates.set
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.collection.BSONCollection
-import reactivemongo.api.bson.compat.toDocumentReader
+import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentReader, toDocumentWriter}
 import reactivemongo.api.{AsyncDriver, MongoConnection}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -44,23 +47,18 @@ object CustomerController {
     }
   }
 
-
   def findCustomerByUsername(username: String) {
     val selector = BSONDocument("username" -> username)
-
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
       case Failure(f) => {}
     }
   }
-
-
 
   def findCustomerById(id: String) {
     val cid = BSONObjectID.parse(id)
     val selector = BSONDocument("_id" -> cid.get)
-
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
@@ -68,19 +66,24 @@ object CustomerController {
     }
   }
 
-
-/*
-  def update(collection: BSONCollection, age: Int): Future[Option[CustomerModel]] = {
-    implicit val reader = Macros.reader[CustomerModel]
-
-    val result = collection.findAndUpdate(
-      BSONDocument("forename" -> "Chris"),
-      BSONDocument("$set" -> BSONDocument("age" -> 17)),
-      fetchNewObject = true)
-
-    result.map(_.result[CustomerModel])
+  /*
+  def updateName(id: ObjectId, newName: String): Unit = {
+    customerCollection.updateOne(equal("_id", id), set("forename", newName)).toFuture.onComplete {
+      case Success(value) => println(s"The value has been updated to: $value")
+      case Failure(error) => println(error)
+    }
   }
 */
+
+  def updateCustomerByUsername(username: String, forename: String, surname: String, age: Int): Unit = {
+    val selector = document("username" -> username)
+    val modifier = document("username" -> username, "forename" -> forename, "surname" -> surname, "age" -> age)
+
+    customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
+  }
+
+  def deleteByUsername(personColl: BSONCollection) =
+    personColl.delete.one(BSONDocument("username" -> "Chris123"))
 
 
 
