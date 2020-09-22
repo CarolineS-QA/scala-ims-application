@@ -12,5 +12,5 @@ case class CustomerModel (
 )
 
 object Customer {
-  def apply(_id: Any, forename: String, surname: String, age: Int): CustomerModel = Customer(new ObjectId(), forename, surname, age)
+  def apply(forename: String, surname: String, age: Int): CustomerModel = Customer(forename, surname, age)
 }

@@ -9,5 +9,6 @@ libraryDependencies ++= Seq(
   "org.mongodb.scala" %% "mongo-scala-driver" % "4.1.0-beta2",
   "org.slf4j" % "slf4j-log4j12" % "1.7.25",
   "org.slf4j" % "slf4j-simple" % "1.7.30",
-  "org.slf4j" % "slf4j-api" % "1.7.30"
+  "org.slf4j" % "slf4j-api" % "1.7.30",
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 )
