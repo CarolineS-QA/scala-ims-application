@@ -45,7 +45,7 @@ object IMS {
 
     /// Product CRUD
 
-    createProduct(ProductModel(BSONString(BSONObjectID.generate().stringify), "Tesco Pork Bites", "Food", BigDecimal(2.99), 1000L))
+    createProduct(ProductModel(BSONString(BSONObjectID.generate().stringify), "Tesco Flapjacks", "Food", BigDecimal(2.99), 1000L))
 
     //findAllProducts
 
@@ -62,13 +62,13 @@ object IMS {
 
     /// Order CRUD
 
-    // createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", Calendar.getInstance().getTime.toString()))
+     createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", List("Tesco Pork Bites", "Tesco Flapjacks"), Calendar.getInstance().getTime.toString()))
 
     //findAllOrders
 
-    findOrderByBuyer("Chris123")
+    // findOrderByBuyer("Chris123")
 
-    deleteOrderByBuyer("Chris123")
+    // deleteOrderByBuyer("Chris123")
 
 
 
