@@ -61,7 +61,7 @@ object IMS {
 
     /// Order CRUD
 
-    createOrder(OrderModel((BSONString(BSONObjectID.generate().stringify)), new BsonDateTime(Instant.now().toEpochMilli())))
+    createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), Calendar.getInstance().getTime.toString()))
 
 
 

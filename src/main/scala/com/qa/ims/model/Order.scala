@@ -7,9 +7,9 @@ import reactivemongo.api.bson.BSONString
 
 case class OrderModel (
    _id: BSONString,
-   date: BsonDateTime,
+   date: String,
 )
 
 object Order {
-  def apply(date: BsonDateTime): OrderModel = Order(date)
+  def apply(date: String): OrderModel = Order(date)
 }
