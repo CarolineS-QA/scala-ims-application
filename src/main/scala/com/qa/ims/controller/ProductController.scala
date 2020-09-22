@@ -35,6 +35,33 @@ object ProductController {
     }
   }
 
+  def findProductByName(name: String) {
+    val selector = BSONDocument("name" -> name)
+    val findFuture = productCollection.flatMap(_.find(selector).one)
+    findFuture onComplete {
+      case Success(productOption) => println(productOption.get)
+      case Failure(f) => {}
+    }
+  }
+
+  def findProductByCategory(category: String) {
+    val selector = BSONDocument("category" -> category)
+    val findFuture = productCollection.flatMap(_.find(selector).one)
+    findFuture onComplete {
+      case Success(productOption) => println(productOption.get)
+      case Failure(f) => {}
+    }
+  }
+
+  def findProductById(id: String) {
+    val pid = BSONObjectID.parse(id)
+    val selector = BSONDocument("_id" -> pid.get)
+    val findFuture = productCollection.flatMap(_.find(selector).one)
+    findFuture onComplete {
+      case Success(productOption) => println(productOption.get)
+      case Failure(f) => {}
+    }
+  }
 
 
 
