@@ -13,7 +13,6 @@ import scala.io.StdIn.readLine
 
 object OrderView {
   def orderInput() {
-    /// Order CRUD
     val action = readLine("What would you like to do with this collection \n 1). create   2). read   3). update   4). delete\n")
     action match {
       case "create" | "1" =>

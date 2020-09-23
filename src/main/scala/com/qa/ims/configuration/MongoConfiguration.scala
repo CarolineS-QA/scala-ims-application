@@ -9,7 +9,6 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object MongoConfiguration {
 
-
   val mongoUri = "mongodb://localhost:27017"
 
   import ExecutionContext.Implicits.global

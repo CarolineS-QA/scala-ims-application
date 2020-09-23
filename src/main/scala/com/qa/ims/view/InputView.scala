@@ -1,24 +1,15 @@
 package com.qa.ims.view
 
-import java.util.Calendar
-
-import com.qa.ims.controller.CustomerController._
-import com.qa.ims.controller.OrderController._
-import com.qa.ims.controller.ProductController._
-import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import com.qa.ims.view.CustomerView.customerInput
 import com.qa.ims.view.OrderView.orderInput
 import com.qa.ims.view.ProductView.productInput
-import reactivemongo.api.bson.BSONString
-import reactivemongo.bson.BSONObjectID
 
 import scala.annotation.tailrec
-import scala.collection.mutable.ListBuffer
-import scala.io.StdIn.{readDouble, readInt, readLine, readLong}
+import scala.io.StdIn.readLine
 
 object InputView {
-  InputServiceLooper()
-  def InputServiceLooper():Unit = {
+  inputServiceLooper()
+  def inputServiceLooper():Unit = {
     val input: String = readLine("Hello, which collection would you like to manage? \n 1). customer   2). product   3). order\n")
 
     if (input == "customer" || input == "1") {
@@ -29,6 +20,7 @@ object InputView {
       orderInput()
     } else {
       println("Invalid Input, please try again...")
+      inputServiceLooper()
     }
     Thread.sleep(1000)
     fullLoop()
@@ -38,7 +30,7 @@ object InputView {
       val fullLoopCheck = readLine("Is there anything else you would like to do? \n 1). y   2). n \n")
       fullLoopCheck match {
         case "y" | "1" =>
-          InputServiceLooper()
+          inputServiceLooper()
         case "n" | "2" =>
           System.exit(1)
         case _ =>

@@ -10,7 +10,6 @@ import scala.io.StdIn.{readInt, readLine}
 object CustomerView {
   def customerInput() {
     val action = readLine("What would you like to do with this collection \n 1). create   2). read   3). update   4). delete\n")
-    /// Customer CRUD
     action match {
       case "create" | "1" =>
         val username = readLine("Please enter a username: \n")
@@ -33,6 +32,7 @@ object CustomerView {
             val id = readLine("Which id would you like to search? \n")
             findCustomerById(id)
           case _ => println("No such command, please try again")
+            customerInput()
         }
       case "update" | "3" =>
         val username = readLine("Please enter the username of the customer you wish to update? \n")
