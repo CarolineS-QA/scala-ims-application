@@ -3,7 +3,7 @@ package com.qa.ims.service
 import java.util.Calendar
 
 import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
-import com.qa.ims.controller.OrderController.{createOrder, findAllOrders, findOrderByBuyer}
+import com.qa.ims.controller.OrderController.{createOrder, findAllOrders, findOrderByBuyer, findOrderById}
 import com.qa.ims.controller.ProductController.{createProduct, deleteProductByName, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
 import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
@@ -143,12 +143,16 @@ object InputService {
         }
       }
       case "read" | "2" => {
-        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). category \n")
+        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). id \n")
         readBy match {
           case "all" | "1" => findAllOrders
           case "name" | "2" => {
             val name = readLine("Please enter the username of the buyer? \n")
             findOrderByBuyer(name)
+          }
+          case "id" | "3" => {
+            val id = readLine("Please enter the id of the order? \n")
+            findOrderById(id)
           }
           case _ => println("No such command, please try again")
         }

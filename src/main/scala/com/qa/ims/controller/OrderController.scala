@@ -52,6 +52,15 @@ object OrderController {
     }
   }
 
+  def findOrderById(id: String) {
+    val selector = BSONDocument("_id" -> id)
+    val findFuture = orderCollection.flatMap(_.find(selector).one)
+    findFuture onComplete {
+      case Success(orderOption) => println(orderOption.get)
+      case Failure(f) => {}
+    }
+  }
+
   def deleteOrderByBuyer(username: String)  = {
     val selector = document("username" -> username)
     orderCollection.flatMap(_.delete.one(selector))
