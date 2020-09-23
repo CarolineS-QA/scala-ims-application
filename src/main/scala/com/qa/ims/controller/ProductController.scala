@@ -40,35 +40,11 @@ object ProductController {
     val selector = BSONDocument("name" -> name)
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
-      case Success(productOption) => println(productOption)
-      case Failure(f) => {}
+      case Success(productOption) => println(productOption.get)
+      case Failure(f) => { throw new NoSuchElementException }
     }
   }
 
-  /*
-
-  implicit def artistHandler: BSONHandler[BSONDocument, Artist] = ???
-  implicit def mapHandler: BSONHandler[BSONDocument, Map[String, Artist]] = ???
-
-  def findProductPriceByName(name: String): String = {
-    val query = BSONDocument("name" -> name)
-    val price: String = ???
-
-    // only fetch the name field for the result documents
-    val projection = BSONDocument("price" -> price)
-
-    val mapperPrice: Try[BSONDocument] = BSON.writeDocument(projection)
-    val findPrice: Map[String, String] = BSON.readDocument[Map[String, String]]
-
-    mapperPrice
-    return findPrice
-
-
-    println(projection.toString())
-    projection.toString()
-  }
-
-*/
   def findProductByCategory(category: String) {
     val selector = BSONDocument("category" -> category)
     val findFuture = productCollection.flatMap(_.find(selector).one)
