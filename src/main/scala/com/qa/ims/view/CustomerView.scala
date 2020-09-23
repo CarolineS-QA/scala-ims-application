@@ -14,15 +14,13 @@ object CustomerView {
   def customerInput() {
     val action = readLine("What would you like to do with this collection \n 1). create   2). read   3). update   4). delete\n")
     action match {
-      case "create" | "1" =>
-        customerCreateInput()
-      case "read" | "2" =>
-        customerReadInput()
-      case "update" | "3" =>
-        customerUpdateInput()
-      case "delete" | "4" =>
-        customerDeleteInput()
-      case _ => println("No such command, please try again")
+      case "create" | "1" => customerCreateInput()
+      case "read" | "2" => customerReadInput()
+      case "update" | "3" => customerUpdateInput()
+      case "delete" | "4" => customerDeleteInput()
+      case _ =>
+        println("No such command, please try again")
+        customerInput()
     }
   }
 
@@ -49,7 +47,8 @@ object CustomerView {
       case "id" | "4" =>
         val id = readLine("Which id would you like to search? \n")
         findCustomerById(id)
-      case _ => println("No such command, please try again")
+      case _ =>
+        println("No such command, please try again")
         customerReadInput()
     }
   }
