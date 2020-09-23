@@ -1,48 +1,35 @@
 package com.qa.ims.configuration
 
-import java.util.concurrent.TimeUnit
-
+import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import reactivemongo.api.bson.collection.BSONCollection
+import reactivemongo.api.bson.{BSONDocumentReader, BSONDocumentWriter, Macros}
+import reactivemongo.api.{AsyncDriver, DB, MongoConnection}
 
-import scala.concurrent.{Await, ExecutionContext, Future}
-import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection, MongoConnectionOptions}
-import reactivemongo.api.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, Macros, document}
-import reactivemongo.api.commands.WriteResult
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
-import org.mongodb.scala._
-import org.mongodb.scala.model.Aggregates._
-import org.mongodb.scala.model.Filters._
-import org.mongodb.scala.model.Projections._
-import org.mongodb.scala.model.Sorts._
-import org.mongodb.scala.model.Updates._
-import org.mongodb.scala.model._
-
-import scala.collection.JavaConverters._
-import scala.concurrent.duration.Duration
+import scala.concurrent.{ExecutionContext, Future}
 
 object MongoConfiguration {
 
-  val mongoClient: MongoClient = MongoClient("mongodb://localhost:27017/DbIMS")
-  val database: MongoDatabase = mongoClient.getDatabase("DbIMS")
+  val mongoUri = "mongodb://localhost:27017"
 
-  val collection: MongoCollection[Document] = database.getCollection("customer");
+  import ExecutionContext.Implicits.global
 
-  collection.insertOne(
-    Document("forename" -> "Chris", "qty" -> 100, "tags" -> Seq("cotton"), "size" -> Document("h" -> 28, "w" -> 35.5, "uom" -> "cm"))
-  )
+  val driver: AsyncDriver = AsyncDriver()
+  val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
 
-  val observable = collection.find(equal("forename", "Chris"))
+  val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect)
+  def db: Future[DB] = connection.flatMap(_.database("DbIMS"))
+  def customerCollection: Future[BSONCollection] = db.map(_.collection("customer"))
+  def productCollection: Future[BSONCollection] = db.map(_.collection("product"))
+  def orderCollection: Future[BSONCollection] = db.map(_.collection("order"))
 
-  println(observable)
+  implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
+  implicit def customerReader: BSONDocumentReader[CustomerModel] = Macros.reader[CustomerModel]
 
+  implicit def productWriter: BSONDocumentWriter[ProductModel] = Macros.writer[ProductModel]
+  implicit def productReader: BSONDocumentReader[ProductModel] = Macros.reader[ProductModel]
 
-
-
-
-
-
+  implicit def orderWriter: BSONDocumentWriter[OrderModel] = Macros.writer[OrderModel]
+  implicit def orderReader: BSONDocumentReader[OrderModel] = Macros.reader[OrderModel]
 
 
 
