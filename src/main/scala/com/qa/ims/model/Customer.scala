@@ -4,6 +4,8 @@ import org.mongodb.scala.bson.{BsonObjectId, ObjectId}
 import reactivemongo.api.bson.BSONObjectID
 import reactivemongo.api.bson.BSONString
 
+import scala.annotation.tailrec
+
 
 case class CustomerModel (
   _id: BSONString,
@@ -14,5 +16,6 @@ case class CustomerModel (
 )
 
 object Customer {
+  @tailrec
   def apply(username: String, forename: String, surname: String, age: Int): CustomerModel = Customer(username, forename, surname, age)
 }

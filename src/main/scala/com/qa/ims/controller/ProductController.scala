@@ -15,6 +15,7 @@ import reactivemongo.api.{AsyncDriver, MongoConnection}
 import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
 import reactivemongo.api.bson.{BSON, BSONDocument, BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, document}
+import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
@@ -32,7 +33,7 @@ object ProductController {
       .collect[List](-1, Cursor.FailOnError[List[ProductModel]]()))
     findFuture onComplete {
       case Success(productOption) => println(productOption.toString)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -41,7 +42,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(f) => { throw new NoSuchElementException }
+      case Failure(_) => throw new NoSuchElementException
     }
   }
 
@@ -50,7 +51,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -59,7 +60,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -70,7 +71,7 @@ object ProductController {
     productCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteProductById(id: String)  = {
+  def deleteProductById(id: String): Future[WriteResult] = {
     val selector = document("_id" -> id)
     productCollection.flatMap(_.delete.one(selector))
   }

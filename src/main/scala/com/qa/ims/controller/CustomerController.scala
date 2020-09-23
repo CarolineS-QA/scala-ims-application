@@ -15,7 +15,7 @@ import reactivemongo.api.{AsyncDriver, MongoConnection}
 import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
 import reactivemongo.api.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, Macros, document}
-
+import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
@@ -34,7 +34,7 @@ object CustomerController {
       .collect[List](-1, Cursor.FailOnError[List[CustomerModel]]()))
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.toString)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -43,7 +43,7 @@ object CustomerController {
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -52,7 +52,7 @@ object CustomerController {
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -61,7 +61,7 @@ object CustomerController {
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -71,7 +71,7 @@ object CustomerController {
     customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteById(id: String) = {
+  def deleteById(id: String): Future[WriteResult] = {
     val selector = document("_id" -> id)
     customerCollection.flatMap(_.delete.one(selector))
   }

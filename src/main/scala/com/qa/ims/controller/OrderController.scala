@@ -7,6 +7,7 @@ import com.qa.ims.controller.ProductController.findProductByName
 import com.qa.ims.model.{OrderModel, ProductModel}
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, BSONString, document}
+import reactivemongo.api.commands.WriteResult
 import reactivemongo.bson.BSONObjectID
 
 import scala.collection.mutable.ListBuffer
@@ -28,7 +29,7 @@ object OrderController {
       .collect[List](-1, Cursor.FailOnError[List[OrderModel]]()))
     findFuture onComplete {
       case Success(orderOption) => println(orderOption.toString)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -37,7 +38,7 @@ object OrderController {
     val findFuture = orderCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(orderOption) => println(orderOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -46,7 +47,7 @@ object OrderController {
     val findFuture = orderCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(orderOption) => println(orderOption.get)
-      case Failure(f) => {}
+      case Failure(_) =>
     }
   }
 
@@ -56,7 +57,7 @@ object OrderController {
     orderCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteOrderById(id: String)  = {
+  def deleteOrderById(id: String): Future[WriteResult] = {
     val selector = document("_id" -> id)
     orderCollection.flatMap(_.delete.one(selector))
   }
