@@ -41,10 +41,8 @@ object IMS {
           val surname = readLine("Please enter a surname: \n")
           println("Please enter an age: \n")
           val age = readInt()
-
           createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), username, forename, surname, age))
         }
-
         case "read" | "2" => {
           val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). username \n")
           readBy match {
@@ -57,23 +55,24 @@ object IMS {
               val username = readLine("Which username would you like to search? \n")
               findCustomerByName(username)
             }
+            case _ => println("No such command, please try again")
           }
         }
+        case "update" | "3" => {
+          val username = readLine("What is the username of the customer you wish to update? \n")
+          val forename = readLine("Please enter the new name of the customer: \n")
+          val surname = readLine("Please enter the new name of the customer: \n")
+          println("Please enter the new name of the customer: \n")
+          val age = readInt()
+          updateCustomerByUsername (username, forename, surname, age)
+        }
+        case "delete" | "4" => {
+          val username = readLine("What is the username of the customer you wish to delete? \n")
+          deleteByUsername(username)
 
-        // findCustomerById("5f6a21350100002d7167cb63") // Not working
-
-      //updateCustomerByUsername ("Chris123", "Christopher", "Radford", 27)
-
-        // findAllCustomers
-
-        //findCustomerByName("Chris")
-
-        //findCustomerByUsername("Chris123")
-
-        //deleteByUsername("Chris123")
-
+        }
+        case _ => println("No such command, please try again")
       }
-
     } else if (input == "product" || input == "2") {
 
       /// Product CRUD
