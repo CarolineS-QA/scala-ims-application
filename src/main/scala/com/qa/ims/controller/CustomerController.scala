@@ -71,8 +71,8 @@ object CustomerController {
     customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteByUsername(username: String) = {
-    val selector = document("username" -> username)
+  def deleteById(id: String) = {
+    val selector = document("_id" -> id)
     customerCollection.flatMap(_.delete.one(selector))
   }
 }

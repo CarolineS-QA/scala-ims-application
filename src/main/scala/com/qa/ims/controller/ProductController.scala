@@ -94,8 +94,8 @@ object ProductController {
     productCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-  def deleteProductByName(name: String)  = {
-    val selector = document("name" -> name)
+  def deleteProductById(id: String)  = {
+    val selector = document("_id" -> id)
     productCollection.flatMap(_.delete.one(selector))
   }
 

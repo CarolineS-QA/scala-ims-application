@@ -2,9 +2,9 @@ package com.qa.ims.service
 
 import java.util.Calendar
 
-import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
+import com.qa.ims.controller.CustomerController.{createCustomer, deleteById, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
 import com.qa.ims.controller.OrderController.{createOrder, deleteOrderById, findAllOrders, findOrderByBuyer, findOrderById, updateOrderById}
-import com.qa.ims.controller.ProductController.{createProduct, deleteProductByName, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
+import com.qa.ims.controller.ProductController.{createProduct, deleteProductById, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
 import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.BSONString
@@ -57,8 +57,8 @@ object InputService {
         updateCustomerByUsername (username, forename, surname, age)
       }
       case "delete" | "4" => {
-        val username = readLine("What is the username of the customer you wish to delete? \n")
-        deleteByUsername(username)
+        val id = readLine("Please enter the id of the customer you wish to delete? \n")
+        deleteById(id)
       }
       case _ => println("No such command, please try again")
     }
@@ -105,8 +105,8 @@ object InputService {
         updateProductByName(name, category, price, inventory)
       }
       case "delete" | "4" => {
-        val name = readLine("What is the name of the product you wish to delete? \n")
-        deleteProductByName(name)
+        val id = readLine("Please enter the id of the product you wish to delete? \n")
+        deleteProductById(id)
       }
       case _ => println("No such command, please try again")
       // findProductById("5f6a4ed6010000f2e1325a93") // Not working
