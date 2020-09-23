@@ -17,61 +17,68 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.{BSONDocumentReader, BSONString}
 import reactivemongo.bson.BSONObjectID
 
+import scala.io.StdIn.readLine
+
 
 object IMS {
 
 
   def main(args: Array[String]): Unit = {
 
-
     MongoConfiguration
 
-    /// Customer CRUD
+    val input = readLine("Hello, which collection would you like to manage? \n 1). customer 2). product 3). order\n")
 
-    //CreateCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), "Chris123", "Chris", "Red", 24))
+    if (input == "customer" || input == "1") {
 
-    // findCustomerById("5f6a21350100002d7167cb63") // Not working
+      println("Heerrsd")
 
-    //updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
+      /// Customer CRUD
 
-    // findAllCustomers
+      createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), "Chris123", "Chris", "Red", 24))
 
-    //findCustomerByName("Chris")
+      // findCustomerById("5f6a21350100002d7167cb63") // Not working
 
-    //findCustomerByUsername("Chris123")
+      updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
 
-    //deleteByUsername("Chris123")
+      // findAllCustomers
 
+      //findCustomerByName("Chris")
 
-    /// Product CRUD
+      //findCustomerByUsername("Chris123")
 
-    createProduct(ProductModel(BSONString(BSONObjectID.generate().stringify), "Tesco Flapjacks", "Food", BigDecimal(2.99), 1000L))
+      //deleteByUsername("Chris123")
+    } else if (input == "product" || input == "2") {
 
-    //findAllProducts
+      /// Product CRUD
 
-    //findProductByName("Pork Bites")
+      createProduct(ProductModel(BSONString(BSONObjectID.generate().stringify), "Tesco Flapjacks", "Food", BigDecimal(2.99), 1000L))
 
-    //findProductByCategory("Food")
+      //findAllProducts
 
-    // findProductById("5f6a4ed6010000f2e1325a93") // Not working
+      //findProductByName("Pork Bites")
 
-    //updateProductByName("Pork Bites", "Food", BigDecimal(4.99), 5000L)
+      //findProductByCategory("Food")
 
-    //deleteProductByName("Pork Bites")
+      // findProductById("5f6a4ed6010000f2e1325a93") // Not working
 
+      //updateProductByName("Pork Bites", "Food", BigDecimal(4.99), 5000L)
 
-    /// Order CRUD
+      //deleteProductByName("Pork Bites")
+    } else if (input == "order" || input == "3") {
 
-    createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123",
-      List("Tesco Flapjacks", "Tesco Pork Bites"),
-      Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
+      /// Order CRUD
 
-    //findAllOrders
+      createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123",
+        List("Tesco Flapjacks", "Tesco Pork Bites"),
+        Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
 
-    // findOrderByBuyer("Chris123")
+      //findAllOrders
 
-    // deleteOrderByBuyer("Chris123")
+      // findOrderByBuyer("Chris123")
 
+      // deleteOrderByBuyer("Chris123")
+    } else { println("Invalid Input, please try again...") }
 
 
 
