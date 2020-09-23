@@ -79,8 +79,7 @@ object ProductController {
   }
 
   def findProductById(id: String) {
-    val pid = BSONObjectID.parse(id)
-    val selector = BSONDocument("_id" -> pid.get)
+    val selector = BSONDocument("_id" -> id)
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)

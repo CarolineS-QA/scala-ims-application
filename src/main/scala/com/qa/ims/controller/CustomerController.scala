@@ -15,10 +15,10 @@ import reactivemongo.api.{AsyncDriver, MongoConnection}
 import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
 import reactivemongo.api.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, Macros, document}
-import reactivemongo.api.bson.BSONObjectID
+
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 
 
 object CustomerController {
@@ -57,8 +57,7 @@ object CustomerController {
   }
 
   def findCustomerById(id: String) {
-    val cid = BSONObjectID.parse(id)
-    val selector = BSONDocument("_id" -> cid.get)
+    val selector = BSONDocument("_id" -> id)
     val findFuture = customerCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)

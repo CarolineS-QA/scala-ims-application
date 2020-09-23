@@ -2,9 +2,9 @@ package com.qa.ims.service
 
 import java.util.Calendar
 
-import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerByName, updateCustomerByUsername}
+import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
 import com.qa.ims.controller.OrderController.{createOrder, findAllOrders, findOrderByBuyer}
-import com.qa.ims.controller.ProductController.{createProduct, deleteProductByName, findAllProducts, findProductByCategory, findProductByName, updateProductByName}
+import com.qa.ims.controller.ProductController.{createProduct, deleteProductByName, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
 import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.BSONString
@@ -30,7 +30,7 @@ object InputService {
         createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), username, forename, surname, age))
       }
       case "read" | "2" => {
-        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). username \n")
+        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). username 4). id \n")
         readBy match {
           case "all" | "1" => findAllCustomers
           case "name" | "2" => {
@@ -40,6 +40,10 @@ object InputService {
           case "username" | "3" => { // Currently throwing NoSuchElementException
             val username = readLine("Which username would you like to search? \n")
             findCustomerByName(username)
+          }
+          case "id" | "4" => { // Currently throwing NoSuchElementException
+            val id = readLine("Which id would you like to search? \n")
+            findCustomerById(id)
           }
           case _ => println("No such command, please try again")
         }
@@ -73,7 +77,7 @@ object InputService {
         createProduct (ProductModel (BSONString (BSONObjectID.generate ().stringify), name, category, BigDecimal (price), inventory) )
       }
       case "read" | "2" => {
-        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). category \n")
+        val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). category 4). id \n")
         readBy match {
           case "all" | "1" => findAllProducts
           case "name" | "2" => {
@@ -83,6 +87,10 @@ object InputService {
           case "category" | "3" => { // Currently throwing NoSuchElementException
             val category = readLine("Which category would you like to search? \n")
             findProductByCategory(category)
+          }
+          case "id" | "4" => { // Currently throwing NoSuchElementException
+            val id = readLine("Which id would you like to search? \n")
+            findProductById(id)
           }
           case _ => println("No such command, please try again")
         }
@@ -109,15 +117,11 @@ object InputService {
     action match {
       case "create" | "1" => {
         val username = readLine("Please enter the username of the customer making the purchase? \n")
-
-
         val productList = new ListBuffer[String]()
         orderProductLoop
         def orderProductLoop: ListBuffer[String] = {
           val products = readLine("Which product by name would you like to add? \n")
-
-
-          var loop = readLine("Would you like to add another item? \n 1). y 2). n \n")
+          val loop = readLine("Would you like to add another item? \n 1). y 2). n \n")
           loop match {
             case "y" | "1" => {
               productList += products
@@ -125,6 +129,7 @@ object InputService {
               orderProductLoop
             }
             case "n" | "2" => {
+              productList += products
               createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), username,
                 productList, Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
               println(productList)

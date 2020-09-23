@@ -26,7 +26,10 @@ object IMS {
 
   def main(args: Array[String]): Unit = {
 
+    // Configures connection to database
     MongoConfiguration
+
+    // Implements interface and calls CRUD functions
     InputService
 
   }
