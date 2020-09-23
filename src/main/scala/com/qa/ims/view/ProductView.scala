@@ -57,9 +57,9 @@ object ProductView {
   def productUpdateInput(): Unit = {
     val name = readLine("Please enter the name of the product you wish to update: \n")
     val category = readLine("Please enter a product category: \n")
-    println("Please enter the price: \n")
+    println("Please enter the price: ")
     val price = readDouble
-    println("Please enter the inventory: \n")
+    println("Please enter the inventory: ")
     val inventory = readLong
     updateProductByName(name, category, price, inventory)
   }

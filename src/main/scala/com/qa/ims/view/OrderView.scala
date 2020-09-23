@@ -36,14 +36,15 @@ object OrderView {
     @tailrec
     def orderProductLoop: ListBuffer[String] = {
       val products = readLine("Which product by name would you like to add? \n")
+      val quantity = readLine("How many would you like? \n") // Will need to comment out alongside any references if I decide to implement total price
       val loop = readLine("Would you like to add another item? \n 1). y   2). n \n")
       loop match {
         case "y" | "1" =>
-          productList += products
+          productList += products + " x" + quantity
           println(productList)
           orderProductLoop
         case "n" | "2" =>
-          productList += products
+          productList += products + " x" + quantity
           createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), username,
             productList, Calendar.getInstance().getTime.toString, BigDecimal(1.99)))
           println(productList)
@@ -81,14 +82,15 @@ object OrderView {
     @tailrec
     def orderProductLoop: ListBuffer[String] = {
       val products = readLine("Which product by name would you like to add? \n")
+      val quantity = readLine("How many would you like? \n") // Will need to comment out alongside any references if I decide to implement total price
       val loop = readLine("Would you like to add another item? \n 1). y   2). n \n")
       loop match {
         case "y" | "1" =>
-          productList += products
+          productList += products + " x" + quantity
           println(productList)
           orderProductLoop
         case "n" | "2" =>
-          productList += products
+          productList += products + " x" + quantity
           updateOrderById(id, username, productList, BigDecimal(1.99))
           println(productList)
           productList
