@@ -29,7 +29,7 @@ object OrderController {
       }
     )
 
-    orderCollection.flatMap(_.insert.one(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", List("Tesco Pork Bites", "Tesco Flapjacks"), Calendar.getInstance().getTime.toString(), BigDecimal(1.99))).map(_ => {}))
+    orderCollection.flatMap(_.insert.one(order).map(_ => {}))
   }
 
   // Read
