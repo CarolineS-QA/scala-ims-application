@@ -4,21 +4,14 @@ package com.qa.ims.controller
 
 import com.qa.ims.configuration.MongoConfiguration.{customerCollection, customerReader, customerWriter}
 import com.qa.ims.model.CustomerModel
-import org.mongodb.scala.bson.ObjectId
-import org.mongodb.scala.model.Filters.equal
-import org.mongodb.scala.model.Updates.set
-import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
-import reactivemongo.api.bson.collection.BSONCollection
-import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentReader, toDocumentWriter}
-import reactivemongo.api.{AsyncDriver, MongoConnection}
-
-import scala.concurrent.{ExecutionContext, Future}
-import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
-import reactivemongo.api.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, Macros, document}
+import reactivemongo.api.Cursor
+import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
+import reactivemongo.api.bson.{BSONDocument, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 
 object CustomerController {
@@ -28,8 +21,8 @@ object CustomerController {
     customerCollection.flatMap(_.insert.one(customer).map(_ => {}))
 
   // Read
-  def findAllCustomers: Unit = {
-    val findFuture: Future[List[CustomerModel]] = customerCollection.flatMap(_.find(document())
+  def findAllCustomers(): Unit = {
+    val findFuture: Future[List[CustomerModel]] = customerCollection.flatMap(_.find(document(), None)
       .cursor[CustomerModel]()
       .collect[List](-1, Cursor.FailOnError[List[CustomerModel]]()))
     findFuture onComplete {
@@ -40,7 +33,7 @@ object CustomerController {
 
   def findCustomerByName(forename: String) {
     val selector = BSONDocument("forename" -> forename)
-    val findFuture = customerCollection.flatMap(_.find(selector).one)
+    val findFuture = customerCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
       case Failure(_) =>
@@ -49,7 +42,7 @@ object CustomerController {
 
   def findCustomerByUsername(username: String) {
     val selector = BSONDocument("username" -> username)
-    val findFuture = customerCollection.flatMap(_.find(selector).one)
+    val findFuture = customerCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
       case Failure(_) =>
@@ -58,7 +51,7 @@ object CustomerController {
 
   def findCustomerById(id: String) {
     val selector = BSONDocument("_id" -> id)
-    val findFuture = customerCollection.flatMap(_.find(selector).one)
+    val findFuture = customerCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(customerOption) => println(customerOption.get)
       case Failure(_) =>

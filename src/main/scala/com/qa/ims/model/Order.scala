@@ -1,8 +1,5 @@
 package com.qa.ims.model
 
-import java.util.{Calendar, Date}
-
-import org.mongodb.scala.bson.BsonDateTime
 import reactivemongo.api.bson.BSONString
 
 import scala.annotation.tailrec

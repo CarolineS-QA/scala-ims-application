@@ -2,13 +2,11 @@ package com.qa.ims.controller
 
 import java.util.Calendar
 
-import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter, productCollection}
-import com.qa.ims.controller.ProductController.findProductByName
-import com.qa.ims.model.{OrderModel, ProductModel}
+import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter}
+import com.qa.ims.model.OrderModel
 import reactivemongo.api.Cursor
-import reactivemongo.api.bson.{BSONDocument, BSONString, document}
+import reactivemongo.api.bson.{BSONDocument, document}
 import reactivemongo.api.commands.WriteResult
-import reactivemongo.bson.BSONObjectID
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,8 +21,8 @@ object OrderController {
   }
 
   // Read
-  def findAllOrders: Unit = {
-    val findFuture: Future[List[OrderModel]] = orderCollection.flatMap(_.find(document())
+  def findAllOrders(): Unit = {
+    val findFuture: Future[List[OrderModel]] = orderCollection.flatMap(_.find(document(), None)
       .cursor[OrderModel]()
       .collect[List](-1, Cursor.FailOnError[List[OrderModel]]()))
     findFuture onComplete {
@@ -35,7 +33,7 @@ object OrderController {
 
   def findOrderByBuyer(username: String) {
     val selector = BSONDocument("username" -> username)
-    val findFuture = orderCollection.flatMap(_.find(selector).one)
+    val findFuture = orderCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(orderOption) => println(orderOption.get)
       case Failure(_) =>
@@ -44,7 +42,7 @@ object OrderController {
 
   def findOrderById(id: String) {
     val selector = BSONDocument("_id" -> id)
-    val findFuture = orderCollection.flatMap(_.find(selector).one)
+    val findFuture = orderCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(orderOption) => println(orderOption.get)
       case Failure(_) =>
@@ -53,7 +51,7 @@ object OrderController {
 
   def updateOrderById(id: String, username: String, products: ListBuffer[String], price: BigDecimal): Unit = {
     val selector = document("_id" -> id)
-    val modifier = document("username" -> username, "products" -> products, "date" -> Calendar.getInstance().getTime.toString(), "totalPrice" -> price)
+    val modifier = document("username" -> username, "products" -> products, "date" -> Calendar.getInstance().getTime.toString, "totalPrice" -> price)
     orderCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 

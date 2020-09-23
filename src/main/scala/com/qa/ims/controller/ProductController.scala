@@ -1,24 +1,15 @@
 package com.qa.ims.controller
 
-import akka.stream.scaladsl.{Sink, Source}
-import com.qa.ims.configuration.MongoConfiguration.{customerCollection, productCollection, productReader, productWriter}
-import com.qa.ims.model.{CustomerModel, ProductModel}
-import org.mongodb.scala.bson.ObjectId
-import org.mongodb.scala.model.Filters.equal
-import org.mongodb.scala.model.Updates.set
-import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
-import reactivemongo.akkastream.State
-import reactivemongo.api.bson.collection.BSONCollection
-import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentReader, toDocumentWriter}
-import reactivemongo.api.{AsyncDriver, MongoConnection}
-
-import scala.concurrent.{ExecutionContext, Future}
-import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
-import reactivemongo.api.bson.{BSON, BSONDocument, BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, document}
+import com.qa.ims.configuration.MongoConfiguration.{productCollection, productReader, productWriter}
+import com.qa.ims.model.ProductModel
+import reactivemongo.api.Cursor
+import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
+import reactivemongo.api.bson.{BSONDocument, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 object ProductController {
 
@@ -27,8 +18,8 @@ object ProductController {
     productCollection.flatMap(_.insert.one(product).map(_ => {}))
 
   // Read
-  def findAllProducts: Unit = {
-    val findFuture: Future[List[ProductModel]] = productCollection.flatMap(_.find(document())
+  def findAllProducts(): Unit = {
+    val findFuture: Future[List[ProductModel]] = productCollection.flatMap(_.find(document(), None)
       .cursor[ProductModel]()
       .collect[List](-1, Cursor.FailOnError[List[ProductModel]]()))
     findFuture onComplete {
@@ -39,7 +30,7 @@ object ProductController {
 
   def findProductByName(name: String) {
     val selector = BSONDocument("name" -> name)
-    val findFuture = productCollection.flatMap(_.find(selector).one)
+    val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
       case Failure(_) => throw new NoSuchElementException
@@ -48,7 +39,7 @@ object ProductController {
 
   def findProductByCategory(category: String) {
     val selector = BSONDocument("category" -> category)
-    val findFuture = productCollection.flatMap(_.find(selector).one)
+    val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
       case Failure(_) =>
@@ -57,7 +48,7 @@ object ProductController {
 
   def findProductById(id: String) {
     val selector = BSONDocument("_id" -> id)
-    val findFuture = productCollection.flatMap(_.find(selector).one)
+    val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
       case Failure(_) =>

@@ -17,7 +17,7 @@ object MongoConfiguration {
   val driver: AsyncDriver = AsyncDriver()
   val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
 
-  val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect(_))
+  val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect)
   def db: Future[DB] = connection.flatMap(_.database("DbIMS"))
   def customerCollection: Future[BSONCollection] = db.map(_.collection("customer"))
   def productCollection: Future[BSONCollection] = db.map(_.collection("product"))

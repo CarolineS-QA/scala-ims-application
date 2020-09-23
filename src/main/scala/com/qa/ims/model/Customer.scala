@@ -1,7 +1,5 @@
 package com.qa.ims.model
 
-import org.mongodb.scala.bson.{BsonObjectId, ObjectId}
-import reactivemongo.api.bson.BSONObjectID
 import reactivemongo.api.bson.BSONString
 
 import scala.annotation.tailrec
