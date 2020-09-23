@@ -3,13 +3,12 @@ package com.qa.ims.controller
 import java.util.Calendar
 
 import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter, productCollection}
-import com.qa.ims.controller.ProductController.{findProductByName, findProductPriceByName}
+import com.qa.ims.controller.ProductController.findProductByName
 import com.qa.ims.model.{OrderModel, ProductModel}
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, BSONString, document}
 import reactivemongo.bson.BSONObjectID
 
-import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -21,13 +20,11 @@ object OrderController {
     val products = order.products
     var totalPrice = BigDecimal(0)
     products.foreach(
-      element => {
-        println(element)
-        val productUnit: Unit = findProductPriceByName(element)
-
-        println(productUnit)
+      products => {
+        val productUnit: Unit = findProductByName(products)
 
         //totalPrice = Product.getAsOpt[String]("price")
+
         //totalPrice = findProductByName(products)
       }
     )

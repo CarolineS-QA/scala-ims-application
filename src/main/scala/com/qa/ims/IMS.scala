@@ -34,7 +34,7 @@ object IMS {
 
     //updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
 
-    findAllCustomers
+    // findAllCustomers
 
     //findCustomerByName("Chris")
 
@@ -62,7 +62,9 @@ object IMS {
 
     /// Order CRUD
 
-    createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123", List("Tesco Pork Bites", "Tesco Flapjacks"), "", BigDecimal(0)))
+    createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123",
+      List("Tesco Flapjacks", "Tesco Pork Bites"),
+      Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
 
     //findAllOrders
 

@@ -11,7 +11,6 @@ case class OrderModel (
    products: List[String],
    date: String,
    totalPrice: BigDecimal
-
 )
 
 object Order {
