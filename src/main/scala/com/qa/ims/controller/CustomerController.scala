@@ -68,7 +68,6 @@ object CustomerController {
   def updateCustomerByUsername(username: String, forename: String, surname: String, age: Int): Unit = {
     val selector = document("username" -> username)
     val modifier = document("username" -> username, "forename" -> forename, "surname" -> surname, "age" -> age)
-
     customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 

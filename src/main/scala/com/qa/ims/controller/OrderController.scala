@@ -9,6 +9,7 @@ import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, BSONString, document}
 import reactivemongo.bson.BSONObjectID
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -17,18 +18,6 @@ object OrderController {
 
   // Create
   def createOrder(order: OrderModel): Future[Unit] = {
-    val products = order.products
-    var totalPrice = BigDecimal(0)
-    products.foreach(
-      products => {
-        val productUnit: Unit = findProductByName(products)
-
-        //totalPrice = Product.getAsOpt[String]("price")
-
-        //totalPrice = findProductByName(products)
-      }
-    )
-
     orderCollection.flatMap(_.insert.one(order).map(_ => {}))
   }
 
@@ -61,12 +50,14 @@ object OrderController {
     }
   }
 
-  def deleteOrderByBuyer(username: String)  = {
-    val selector = document("username" -> username)
-    orderCollection.flatMap(_.delete.one(selector))
+  def updateOrderById(id: String, username: String, products: ListBuffer[String], price: BigDecimal): Unit = {
+    val selector = document("_id" -> id)
+    val modifier = document("username" -> username, "products" -> products, "date" -> Calendar.getInstance().getTime.toString(), "totalPrice" -> price)
+    orderCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
-
-
-
+  def deleteOrderById(id: String)  = {
+    val selector = document("_id" -> id)
+    orderCollection.flatMap(_.delete.one(selector))
+  }
 }

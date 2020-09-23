@@ -3,7 +3,7 @@ package com.qa.ims.service
 import java.util.Calendar
 
 import com.qa.ims.controller.CustomerController.{createCustomer, deleteByUsername, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
-import com.qa.ims.controller.OrderController.{createOrder, findAllOrders, findOrderByBuyer, findOrderById}
+import com.qa.ims.controller.OrderController.{createOrder, deleteOrderById, findAllOrders, findOrderByBuyer, findOrderById, updateOrderById}
 import com.qa.ims.controller.ProductController.{createProduct, deleteProductByName, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
 import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
@@ -158,10 +158,36 @@ object InputService {
         }
       }
       case "update" | "3" => {
-
+        val id = readLine("Please enter the id of the order? \n")
+        val username = readLine("Please enter the username of the customer making the purchase? \n")
+        val productList = new ListBuffer[String]()
+        orderProductLoop
+        def orderProductLoop: ListBuffer[String] = {
+          val products = readLine("Which product by name would you like to add? \n")
+          val loop = readLine("Would you like to add another item? \n 1). y 2). n \n")
+          loop match {
+            case "y" | "1" => {
+              productList += products
+              println(productList)
+              orderProductLoop
+            }
+            case "n" | "2" => {
+              productList += products
+              updateOrderById(id, username,
+                productList, BigDecimal(1.99))
+              println(productList)
+              productList
+            }
+            case _ => {
+              println("No such command, please try again")
+              orderProductLoop
+            }
+          }
+        }
       }
       case "delete" | "4" => {
-        // deleteOrderByBuyer("Chris123") /// Pointless function as it'll clear all of the buyer's orders
+        val id = readLine("What is the id of the order you wish to delete? \n")
+        deleteOrderById(id)
       }
       case _ => println("No such command, please try again")
     }
