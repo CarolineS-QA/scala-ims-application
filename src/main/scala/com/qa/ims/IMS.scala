@@ -3,6 +3,9 @@ package com.qa.ims
 import com.qa.ims.configuration.MongoConfiguration
 import com.qa.ims.service.InputService
 
+import scala.annotation.tailrec
+import scala.io.StdIn.readLine
+
 
 object IMS {
 
@@ -14,6 +17,9 @@ object IMS {
 
     // Implements interface and calls CRUD functions
     InputService
+
+
+
 
   }
 }
