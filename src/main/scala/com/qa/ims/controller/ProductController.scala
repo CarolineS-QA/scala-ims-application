@@ -14,11 +14,10 @@ import reactivemongo.api.{AsyncDriver, MongoConnection}
 
 import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
-import reactivemongo.api.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, Macros, document}
-import reactivemongo.api.bson.BSONObjectID
+import reactivemongo.api.bson.{BSON, BSONDocument, BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, document}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 
 object ProductController {
 
@@ -41,26 +40,35 @@ object ProductController {
     val selector = BSONDocument("name" -> name)
     val findFuture = productCollection.flatMap(_.find(selector).one)
     findFuture onComplete {
-      case Success(productOption) => println(productOption.get)
+      case Success(productOption) => println(productOption)
       case Failure(f) => {}
     }
   }
 
   /*
-  def findProductPriceByName(name: String) {
-    val selector = BSONDocument("name" -> name)
-    val retrieved: Source[ProductModel, Future[State]] =
-      customerCollection.flatMap(_.find(document()).cursor[ProductModel]())
+
+  implicit def artistHandler: BSONHandler[BSONDocument, Artist] = ???
+  implicit def mapHandler: BSONHandler[BSONDocument, Map[String, Artist]] = ???
+
+  def findProductPriceByName(name: String): String = {
+    val query = BSONDocument("name" -> name)
+    val price: String = ???
+
+    // only fetch the name field for the result documents
+    val projection = BSONDocument("price" -> price)
+
+    val mapperPrice: Try[BSONDocument] = BSON.writeDocument(projection)
+    val findPrice: Map[String, String] = BSON.readDocument[Map[String, String]]
+
+    mapperPrice
+    return findPrice
 
 
-    val findFuture = productCollection.flatMap(_.find(selector, "price").one)
-    findFuture onComplete {
-      case Success(productOption) => println(retrieved.runWith(Sink.seq[BSONDocument]))
-      case Failure(f) => {}
-    }
+    println(projection.toString())
+    projection.toString()
   }
-*/
 
+*/
   def findProductByCategory(category: String) {
     val selector = BSONDocument("category" -> category)
     val findFuture = productCollection.flatMap(_.find(selector).one)

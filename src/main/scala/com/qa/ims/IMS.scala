@@ -34,7 +34,7 @@ object IMS {
 
     //updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
 
-    //findAllCustomers
+    findAllCustomers
 
     //findCustomerByName("Chris")
 
