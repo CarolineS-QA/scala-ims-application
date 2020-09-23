@@ -4,12 +4,13 @@ import reactivemongo.api.bson.BSONString
 
 case class ProductModel (
    _id: BSONString,
-   username: String,
-   forename: String,
-   surname: String,
-   age: Int
+   name: String,
+   category: String,
+   price: BigDecimal,
+   inventory: Long
 )
 
 object Product {
-  def apply(username: String, forename: String, surname: String, age: Int): CustomerModel = Customer(username, forename, surname, age)
+  def apply(name: String, category: String, price: BigDecimal, inventory: Long): ProductModel = Product(name, category, price, inventory)
 }
+
