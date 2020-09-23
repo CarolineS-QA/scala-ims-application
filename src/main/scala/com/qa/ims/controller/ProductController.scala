@@ -88,10 +88,10 @@ object ProductController {
     }
   }
 
-  def updateProductByName(name: String, category: String, price: BigDecimal, quantity: Long): Unit = {
+  def updateProductByName(name: String, category: String, price: BigDecimal, inventory: Long): Unit = {
     val selector = document("name" -> name)
-    val modifier = document("name" -> name, "category" -> category, "price" -> price, "quantity" -> quantity)
-    println(s"Updated, the product details are now: name = $name, category = $category, price = $price, quantity = $quantity")
+    val modifier = document("name" -> name, "category" -> category, "price" -> price, "inventory" -> inventory)
+    println(s"Updated, the product details are now: name = $name, category = $category, price = $price, inventory = $inventory")
     productCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 

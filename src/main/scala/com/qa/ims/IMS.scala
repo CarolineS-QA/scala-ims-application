@@ -17,7 +17,7 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.{BSONDocumentReader, BSONString}
 import reactivemongo.bson.BSONObjectID
 
-import scala.io.StdIn.{readInt, readLine}
+import scala.io.StdIn.{readDouble, readInt, readLine, readLong}
 
 
 object IMS {
@@ -59,7 +59,7 @@ object IMS {
           }
         }
         case "update" | "3" => {
-          val username = readLine("What is the username of the customer you wish to update? \n")
+          val username = readLine("Please enter the username of the customer you wish to update? \n")
           val forename = readLine("Please enter the new name of the customer: \n")
           val surname = readLine("Please enter the new name of the customer: \n")
           println("Please enter the new name of the customer: \n")
@@ -69,30 +69,73 @@ object IMS {
         case "delete" | "4" => {
           val username = readLine("What is the username of the customer you wish to delete? \n")
           deleteByUsername(username)
+        }
+        case _ => println("No such command, please try again")
+      }
+      // findCustomerById("5f6a4ed6010000f2e1325a93") // Not working
+    } else if (input == "product" || input == "2") {
+      /// Product CRUD
+      val action = readLine("What would you like to do with this collecion\n 1). create 2). read 3). update 4). delete\n")
+      action match {
+        case "create" | "1" => {
+          val name = readLine("Please enter a product name: \n")
+          val category = readLine("Please enter a product category: \n")
+          println("Please enter the price: \n")
+          val price = readDouble
+          println("Please enter the inventory: \n")
+          val inventory = readLong
+          createProduct (ProductModel (BSONString (BSONObjectID.generate ().stringify), name, category, BigDecimal (price), inventory) )
+        }
+        case "read" | "2" => {
+          val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). category \n")
+          readBy match {
+            case "all" | "1" => findAllProducts
+            case "name" | "2" => {
+              val name = readLine("Which name would you like to search? \n")
+              findProductByName(name)
+            }
+            case "category" | "3" => { // Currently throwing NoSuchElementException
+              val category = readLine("Which category would you like to search? \n")
+              findProductByCategory(category)
+            }
+            case _ => println("No such command, please try again")
+          }
+        }
+        case "update" | "3" => {
+          val name = readLine("Please enter the name of the product you wish to update: \n")
+          val category = readLine("Please enter a product category: \n")
+          println("Please enter the price: \n")
+          val price = readDouble
+          println("Please enter the inventory: \n")
+          val inventory = readLong
+          updateProductByName(name, category, price, inventory)
+        }
+        case "delete" | "4" => {
+          val name = readLine("What is the name of the product you wish to delete? \n")
+          deleteProductByName(name)
+        }
+        case _ => println("No such command, please try again")
+        // findProductById("5f6a4ed6010000f2e1325a93") // Not working
+      }
+    } else if (input == "order" || input == "3") {
+
+      /// Order CRUD
+      val action = readLine("What would you like to do with this collecion\n 1). create 2). read 3). update 4). delete\n")
+      action match {
+        case "create" | "1" => {
+
+        }
+        case "read" | "2" => {
+
+        }
+        case "update" | "3" => {
+
+        }
+        case "delete" | "4" => {
 
         }
         case _ => println("No such command, please try again")
       }
-    } else if (input == "product" || input == "2") {
-
-      /// Product CRUD
-
-      createProduct(ProductModel(BSONString(BSONObjectID.generate().stringify), "Tesco Flapjacks", "Food", BigDecimal(2.99), 1000L))
-
-      //findAllProducts
-
-      //findProductByName("Pork Bites")
-
-      //findProductByCategory("Food")
-
-      // findProductById("5f6a4ed6010000f2e1325a93") // Not working
-
-      //updateProductByName("Pork Bites", "Food", BigDecimal(4.99), 5000L)
-
-      //deleteProductByName("Pork Bites")
-    } else if (input == "order" || input == "3") {
-
-      /// Order CRUD
 
       createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), "Chris123",
         List("Tesco Flapjacks", "Tesco Pork Bites"),
