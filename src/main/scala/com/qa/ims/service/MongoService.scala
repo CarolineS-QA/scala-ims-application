@@ -10,6 +10,7 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.BSONString
 import reactivemongo.bson.BSONObjectID
 
+import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.{readDouble, readInt, readLine, readLong}
 
 object InputService {
@@ -17,9 +18,7 @@ object InputService {
   val input = readLine("Hello, which collection would you like to manage? \n 1). customer 2). product 3). order\n")
 
   if (input == "customer" || input == "1") {
-
     val action = readLine("What would you like to do with this collecion\n 1). create 2). read 3). update 4). delete\n")
-
     /// Customer CRUD
     action match {
       case "create" | "1" => {
@@ -105,16 +104,38 @@ object InputService {
       // findProductById("5f6a4ed6010000f2e1325a93") // Not working
     }
   } else if (input == "order" || input == "3") {
-
     /// Order CRUD
     val action = readLine("What would you like to do with this collecion\n 1). create 2). read 3). update 4). delete\n")
     action match {
       case "create" | "1" => {
         val username = readLine("Please enter the username of the customer making the purchase? \n")
-        val products = readLine("What product? \n")
-        createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), username,
-          List(products),
-          Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
+
+
+        val productList = new ListBuffer[String]()
+        orderProductLoop
+        def orderProductLoop: ListBuffer[String] = {
+          val products = readLine("Which product by name would you like to add? \n")
+
+
+          var loop = readLine("Would you like to add another item? \n 1). y 2). n \n")
+          loop match {
+            case "y" | "1" => {
+              productList += products
+              println(productList)
+              orderProductLoop
+            }
+            case "n" | "2" => {
+              createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), username,
+                productList, Calendar.getInstance().getTime.toString(), BigDecimal(1.99)))
+              println(productList)
+              productList
+            }
+            case _ => {
+              println("No such command, please try again")
+              orderProductLoop
+            }
+          }
+        }
       }
       case "read" | "2" => {
         val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). category \n")
