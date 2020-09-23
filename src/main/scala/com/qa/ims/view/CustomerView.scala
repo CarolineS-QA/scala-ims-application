@@ -1,6 +1,6 @@
 package com.qa.ims.view
 
-import com.qa.ims.controller.CustomerController.{createCustomer, deleteById, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerByUsername}
+import com.qa.ims.controller.CustomerController.{createCustomer, deleteById, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerById, updateCustomerByUsername}
 import com.qa.ims.model.CustomerModel
 import reactivemongo.api.bson.BSONString
 import reactivemongo.api.commands.WriteResult
@@ -55,12 +55,24 @@ object CustomerView {
   }
 
   def customerUpdateInput(): Unit = {
-    val username = readLine("Please enter the username of the customer you wish to update? \n")
-    val forename = readLine("Please enter the new forename of the customer: \n")
-    val surname = readLine("Please enter the new surname of the customer: \n")
-    println("Please enter the new age of the customer: \n")
-    val age = readInt()
-    updateCustomerByUsername(username, forename, surname, age)
+    val updateBy = readLine("Would you like to update by id or username? \n 1). id   2). username   \n")
+    updateBy match {
+      case "id" | "1" =>
+        val id = readLine("Please enter the id of the customer you wish to update? \n")
+        val username = readLine("Please enter the new username of the customer: \n")
+        val forename = readLine("Please enter the new forename of the customer: \n")
+        val surname = readLine("Please enter the new surname of the customer: \n")
+        println("Please enter the new age of the customer: ")
+        val age = readInt()
+        updateCustomerById(id, username, forename, surname, age)
+      case "username" | "2" =>
+        val username = readLine("Please enter the username of the customer you wish to update? \n")
+        val forename = readLine("Please enter the new forename of the customer: \n")
+        val surname = readLine("Please enter the new surname of the customer: \n")
+        println("Please enter the new age of the customer: ")
+        val age = readInt()
+        updateCustomerByUsername(username, forename, surname, age)
+    }
   }
 
   def customerDeleteInput(): Future[WriteResult] = {

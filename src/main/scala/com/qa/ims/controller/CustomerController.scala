@@ -64,6 +64,12 @@ object CustomerController {
     customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
   }
 
+  def updateCustomerById(id: String, username: String, forename: String, surname: String, age: Int): Unit = {
+    val selector = document("_id" -> id)
+    val modifier = document("username" -> username, "forename" -> forename, "surname" -> surname, "age" -> age)
+    customerCollection.flatMap(_.update.one(selector, modifier).map(_.n))
+  }
+
   def deleteById(id: String): Future[WriteResult] = {
     val selector = document("_id" -> id)
     customerCollection.flatMap(_.delete.one(selector))
