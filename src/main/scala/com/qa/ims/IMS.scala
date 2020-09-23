@@ -17,7 +17,7 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
 import reactivemongo.api.bson.{BSONDocumentReader, BSONString}
 import reactivemongo.bson.BSONObjectID
 
-import scala.io.StdIn.readLine
+import scala.io.StdIn.{readInt, readLine}
 
 
 object IMS {
@@ -31,23 +31,49 @@ object IMS {
 
     if (input == "customer" || input == "1") {
 
-      println("Heerrsd")
+      val action = readLine("What would you like to do with this collecion\n 1). create 2). read 3). update 4). delete\n")
 
       /// Customer CRUD
+      action match {
+        case "create" | "1" => {
+          val username = readLine("Please enter a username: \n")
+          val forename = readLine("Please enter a forename: \n")
+          val surname = readLine("Please enter a surname: \n")
+          println("Please enter an age: \n")
+          val age = readInt()
 
-      createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), "Chris123", "Chris", "Red", 24))
+          createCustomer(CustomerModel(BSONString(BSONObjectID.generate().stringify), username, forename, surname, age))
+        }
 
-      // findCustomerById("5f6a21350100002d7167cb63") // Not working
+        case "read" | "2" => {
+          val readBy = readLine("Which read command would you like to use? \n 1). all 2). name 3). username \n")
+          readBy match {
+            case "all" | "1" => findAllCustomers
+            case "name" | "2" => {
+              val name = readLine("Which name would you like to search? \n")
+              findCustomerByName(name)
+            }
+            case "username" | "3" => { // Currently throwing NoSuchElementException
+              val username = readLine("Which username would you like to search? \n")
+              findCustomerByName(username)
+            }
+          }
+        }
 
-      updateCustomerByUsername("Chris123", "Christopher", "Radford", 27)
+        // findCustomerById("5f6a21350100002d7167cb63") // Not working
 
-      // findAllCustomers
+      //updateCustomerByUsername ("Chris123", "Christopher", "Radford", 27)
 
-      //findCustomerByName("Chris")
+        // findAllCustomers
 
-      //findCustomerByUsername("Chris123")
+        //findCustomerByName("Chris")
 
-      //deleteByUsername("Chris123")
+        //findCustomerByUsername("Chris123")
+
+        //deleteByUsername("Chris123")
+
+      }
+
     } else if (input == "product" || input == "2") {
 
       /// Product CRUD
