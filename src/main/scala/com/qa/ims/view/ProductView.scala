@@ -1,6 +1,6 @@
 package com.qa.ims.view
 
-import com.qa.ims.controller.ProductController.{createProduct, deleteProductById, findAllProducts, findProductByCategory, findProductById, findProductByName, updateProductByName}
+import com.qa.ims.controller.ProductController._
 import com.qa.ims.model.ProductModel
 import reactivemongo.api.bson.BSONString
 import reactivemongo.bson.BSONObjectID

@@ -3,11 +3,13 @@ package com.qa.ims.controller
 import java.util.Calendar
 
 import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter}
+import com.qa.ims.controller.ProductController.findProductByName
 import com.qa.ims.model.OrderModel
 import reactivemongo.api.Cursor
-import reactivemongo.api.bson.{BSONDocument, document}
+import reactivemongo.api.bson.{BSONDocument, BSONElement, BSONInteger, BSONObjectID, BSONString, document}
 import reactivemongo.api.commands.WriteResult
 
+import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -16,8 +18,23 @@ import scala.util.{Failure, Success}
 object OrderController {
 
   // Create
-  def createOrder(order: OrderModel): Future[Unit] = {
-    orderCollection.flatMap(_.insert.one(order).map(_ => {}))
+  def createOrder(username: String, productList: BSONDocument, productSeq: Seq[BSONElement]): Future[Unit] = {
+    def findProductPriceByName(productSeq: Seq[BSONElement]): BigDecimal = {
+      val products = productSeq.map { productTuple => productTuple.name -> BSONInteger.unapply(productTuple.value).get }
+
+      @tailrec
+      def calculate(totalPrice: BigDecimal, count: Int, products: Seq[(String, Int)]): BigDecimal = {
+        if (count < 0) totalPrice
+        else calculate(totalPrice + (findProductByName(products(count)._1).price * products(count)._2), count - 1, products)
+      }
+      calculate(0, products.length - 1, products)
+    }
+    findProductPriceByName(productSeq)
+    orderCollection.flatMap(_.insert.one(
+      OrderModel(BSONString(BSONObjectID.generate().stringify),
+      username, productList, Calendar.getInstance().getTime.toString,
+      findProductPriceByName(productSeq: Seq[BSONElement]))
+    ).map(_ => {}))
   }
 
   // Read
