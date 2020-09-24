@@ -4,12 +4,12 @@ import com.qa.ims.configuration.MongoConfiguration.{productCollection, productRe
 import com.qa.ims.model.ProductModel
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
-import reactivemongo.api.bson.{BSONDocument, BSONString, document}
+import reactivemongo.api.bson.{BSONDocument, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, CanAwait, Future}
 import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success}
 
 object ProductController {

@@ -1,6 +1,6 @@
 package com.qa.ims.view
 
-import com.qa.ims.controller.CustomerController.{createCustomer, deleteById, findAllCustomers, findCustomerById, findCustomerByName, updateCustomerById, updateCustomerByUsername}
+import com.qa.ims.controller.CustomerController._
 import com.qa.ims.model.CustomerModel
 import reactivemongo.api.bson.BSONString
 import reactivemongo.api.commands.WriteResult

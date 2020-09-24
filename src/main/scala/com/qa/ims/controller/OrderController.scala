@@ -2,7 +2,6 @@ package com.qa.ims.controller
 
 import java.util.Calendar
 
-import akka.util.Helpers.Requiring
 import com.qa.ims.configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter}
 import com.qa.ims.controller.ProductController.findProductByName
 import com.qa.ims.model.OrderModel
@@ -10,7 +9,6 @@ import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, BSONElement, BSONInteger, BSONObjectID, BSONString, document}
 import reactivemongo.api.commands.WriteResult
 
-import scala.Double.MinValue
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global

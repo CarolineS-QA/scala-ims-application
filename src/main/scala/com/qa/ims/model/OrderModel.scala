@@ -1,9 +1,6 @@
 package com.qa.ims.model
 
-import reactivemongo.api.bson.{BSONDocument, BSONElement, BSONString}
-
-import scala.annotation.tailrec
-import scala.collection.mutable.ListBuffer
+import reactivemongo.api.bson.{BSONDocument, BSONString}
 
 case class OrderModel (
    _id: BSONString,
