@@ -4,11 +4,12 @@ import com.qa.ims.configuration.MongoConfiguration.{productCollection, productRe
 import com.qa.ims.model.ProductModel
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
-import reactivemongo.api.bson.{BSONDocument, document}
+import reactivemongo.api.bson.{BSONDocument, BSONString, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, CanAwait, Future}
+import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success}
 
 object ProductController {
@@ -28,13 +29,16 @@ object ProductController {
     }
   }
 
-  def findProductByName(name: String) {
+  def findProductByName(name: String): ProductModel = {
     val selector = BSONDocument("name" -> name)
     val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
-      case Success(productOption) => println(productOption.get)
-      case Failure(_) => throw new NoSuchElementException
+      case Success(productOption) =>
+        println(productOption.get)
+      case Failure(_) =>
+        throw new NoSuchElementException
     }
+    Await.result(findFuture, Duration.Inf).get
   }
 
   def findProductByCategory(category: String) {
