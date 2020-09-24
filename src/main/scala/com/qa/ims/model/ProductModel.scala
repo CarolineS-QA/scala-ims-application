@@ -11,8 +11,3 @@ case class ProductModel (
    price: BigDecimal,
    inventory: Long
 )
-
-object Product {
-  @tailrec
-  def apply(name: String, category: String, price: BigDecimal, inventory: Long): ProductModel = Product(name, category, price, inventory)
-}

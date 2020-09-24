@@ -12,8 +12,3 @@ case class OrderModel (
    date: String,
    totalPrice: BigDecimal
 )
-
-object Order {
-  @tailrec
-  def apply(username: String, products: BSONDocument, date: String, totalPrice: BigDecimal): OrderModel = Order(username, products, date, totalPrice)
-}
