@@ -44,8 +44,15 @@ object OrderView {
         case "y" | "1" =>
           orderProductLoop
         case "n" | "2" =>
-          createOrder(username, productList, productList.elements)
-          productList
+          try {
+            createOrder(username, productList, productList.elements)
+            productList
+          } catch {
+            case e: NoSuchElementException =>
+              Thread.sleep(1000)
+              println("An item you added does not exist. Please try again")
+              orderProductLoop
+          }
         case _ =>
           println("No such command, please try again")
           orderProductLoop
