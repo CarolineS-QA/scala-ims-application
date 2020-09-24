@@ -10,6 +10,7 @@ lazy val root = (project in file("."))
       "org.mongodb.scala" %% "mongo-scala-driver" % "4.1.0-beta2",
       "com.typesafe.play" %% "twirl-api" % "1.5.0",
       "com.typesafe.play" %% "play" % "2.8.2",
+      "org.reactivemongo" %% "play2-reactivemongo" % "0.20.11-play28",
       guice,
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
     ),

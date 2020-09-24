@@ -116,10 +116,13 @@
     <orderEntry type="library" name="sbt: org.mongodb:bson:4.1.0-beta2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.mongodb:mongodb-driver-core:4.1.0-beta2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.mongodb:mongodb-driver-reactivestreams:4.1.0-beta2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivemongo:play2-reactivemongo_2.13:0.20.11-play28:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-akkastream_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-bson-api_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-bson-compat_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-bson_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-core_2.13:0.20.11:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-play-json_2.13:0.20.11-play28:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-shaded:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivestreams:reactive-streams:1.0.3:jar" level="project" />

@@ -2,6 +2,8 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
+import play.twirl.api.Content
+import reactivemongo.api.bson.BSONObjectID
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -17,16 +19,20 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index() = Action { implicit request: Request[AnyContent] =>
+  def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index())
   }
   
-  def explore() = Action { implicit request: Request[AnyContent] =>
+  def explore(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.explore())
   }
   
-  def tutorial() = Action { implicit request: Request[AnyContent] =>
+  def tutorial(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.tutorial())
+  }
+
+  def datatest(id: Int): Action[AnyContent] = Action {
+    Ok(s"stuff $id")
   }
   
 }
