@@ -31,6 +31,4 @@ object MongoConfiguration {
   implicit def orderWriter: BSONDocumentWriter[OrderModel] = Macros.writer[OrderModel]
   implicit def orderReader: BSONDocumentReader[OrderModel] = Macros.reader[OrderModel]
 
-
-
 }

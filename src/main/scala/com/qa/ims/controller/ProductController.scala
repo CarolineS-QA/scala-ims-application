@@ -8,7 +8,8 @@ import reactivemongo.api.bson.{BSONDocument, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success}
 
 object ProductController {
@@ -28,13 +29,16 @@ object ProductController {
     }
   }
 
-  def findProductByName(name: String) {
+  def findProductByName(name: String): ProductModel = {
     val selector = BSONDocument("name" -> name)
     val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
-      case Success(productOption) => println(productOption.get)
-      case Failure(_) => throw new NoSuchElementException
+      case Success(productOption) =>
+        println(productOption.get)
+      case Failure(_) =>
+        throw new NoSuchElementException
     }
+    Await.result(findFuture, Duration.Inf).get
   }
 
   def findProductByCategory(category: String) {

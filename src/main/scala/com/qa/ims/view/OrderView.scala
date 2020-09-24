@@ -1,12 +1,8 @@
 package com.qa.ims.view
 
-import java.util.Calendar
-
-import com.qa.ims.controller.OrderController.{createOrder, deleteOrderById, findAllOrders, findOrderByBuyer, findOrderById, updateOrderById}
-import com.qa.ims.model.OrderModel
-import reactivemongo.api.bson.BSONString
+import com.qa.ims.controller.OrderController._
+import reactivemongo.api.bson.BSONDocument
 import reactivemongo.api.commands.WriteResult
-import reactivemongo.bson.BSONObjectID
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
@@ -30,25 +26,29 @@ object OrderView {
 
   def orderCreateInput(): Unit = {
     val username = readLine("Please enter the username of the customer making the purchase? \n")
-    val productList = new ListBuffer[String]()
+
     orderProductLoop
 
     @tailrec
-    def orderProductLoop: ListBuffer[String] = {
+    def orderProductLoop: Any = {
       val products = readLine("Which product by name would you like to add? \n")
       val quantity = readLine("How many would you like? \n") // Will need to comment out alongside any references if I decide to implement total price
       val loop = readLine("Would you like to add another item? \n 1). y   2). n \n")
+
+      val productList: BSONDocument = BSONDocument(products -> quantity.toInt)
       loop match {
         case "y" | "1" =>
-          productList += products + " x" + quantity
-          println(productList)
           orderProductLoop
         case "n" | "2" =>
-          productList += products + " x" + quantity
-          createOrder(OrderModel(BSONString(BSONObjectID.generate().stringify), username,
-            productList, Calendar.getInstance().getTime.toString, BigDecimal(1.99)))
-          println(productList)
-          productList
+          try {
+            createOrder(username, productList, productList.elements)
+            productList
+          } catch {
+            case e: NoSuchElementException =>
+              Thread.sleep(1000)
+              println("An item you added does not exist. Please try again")
+              orderProductLoop
+          }
         case _ =>
           println("No such command, please try again")
           orderProductLoop
