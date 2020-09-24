@@ -8,6 +8,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "org.reactivemongo" %% "reactivemongo" % "0.20.11",
       "org.mongodb.scala" %% "mongo-scala-driver" % "4.1.0-beta2",
+      "com.typesafe.play" %% "twirl-api" % "1.5.0",
+      "com.typesafe.play" %% "play" % "2.8.2",
       guice,
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
     ),
