@@ -27,6 +27,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * a path of `/`.
    */
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    findCustomerByName("Borth")
     Ok(views.html.index())
   }
   
@@ -38,8 +39,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.tutorial())
   }
 
-  def datatest(id: Int): Action[AnyContent] = Action {
-    Ok(s"stuff $id")
+  def datatest(name: String): Action[AnyContent] = Action {
+    val borth = findCustomerByName(name)
+    Ok(s"stuff $borth")
   }
 
 //  def findCustomerByNameHome(name: String)(result: Writeable[CustomerModel])
@@ -48,7 +50,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 //    Ok(customer)
 //  }
 
-  println(findCustomerByName("borth"))
+  //println(findCustomerByName("borth"))
 
 
   //implicit def customerPlayWriter = Json.writes[CustomerModel]
