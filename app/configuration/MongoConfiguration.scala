@@ -27,9 +27,6 @@ object MongoConfiguration {
   def productCollection: Future[BSONCollection] = db.map(_.collection("product"))
   def orderCollection: Future[BSONCollection] = db.map(_.collection("order"))
 
-
-
-
   @nowarn
   implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
   @nowarn
@@ -44,7 +41,4 @@ object MongoConfiguration {
   implicit def orderReader: BSONDocumentReader[OrderModel] = Macros.reader[OrderModel]
 
 
-  implicit def customerPlayWriter = Json.writes[CustomerModel]
-
-  implicit def customerPlayReader = Json.reads[CustomerModel]
 }

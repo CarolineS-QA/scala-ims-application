@@ -2,9 +2,15 @@ package controllers
 
 import controllers.CustomerController.findCustomerByName
 import javax.inject._
+import model.CustomerModel
+import play.api.http.Writeable
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc._
 import play.twirl.api.Content
 import reactivemongo.api.bson.BSONObjectID
+import reactivemongo.api.commands.GetLastError.Acknowledged.w
+import reactivemongo.io.netty.util.concurrent.Future
+
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -36,8 +42,19 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(s"stuff $id")
   }
 
-  def findCustomerByNameHome(name: String): Action[AnyContent] = Action {
-    Ok(findCustomerByName("Borth"))
-  }
-  
+//  def findCustomerByNameHome(name: String)(result: Writeable[CustomerModel])
+//    (implicit w: Writeable[CustomerModel]): (Result) = {
+//    val customer = findCustomerByName(name)
+//    Ok(customer)
+//  }
+
+  println(findCustomerByName("borth"))
+
+
+  //implicit def customerPlayWriter = Json.writes[CustomerModel]
+
+  //implicit def customerPlayReader = Json.reads[CustomerModel]
+
+
 }
+
