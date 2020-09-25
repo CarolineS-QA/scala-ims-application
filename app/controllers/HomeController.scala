@@ -40,22 +40,11 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def datatest(name: String): Action[AnyContent] = Action {
-    val borth = findCustomerByName(name)
+    val borth = findCustomerByName(name).forename
     Ok(s"stuff $borth")
   }
 
-//  def findCustomerByNameHome(name: String)(result: Writeable[CustomerModel])
-//    (implicit w: Writeable[CustomerModel]): (Result) = {
-//    val customer = findCustomerByName(name)
-//    Ok(customer)
-//  }
 
-  //println(findCustomerByName("borth"))
-
-
-  //implicit def customerPlayWriter = Json.writes[CustomerModel]
-
-  //implicit def customerPlayReader = Json.reads[CustomerModel]
 
 
 }
