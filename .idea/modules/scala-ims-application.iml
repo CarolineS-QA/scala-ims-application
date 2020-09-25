@@ -19,6 +19,8 @@
     <orderEntry type="library" name="sbt: aopalliance:aopalliance:1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.adrianhurt:play-bootstrap-core_2.13:1.6.1-P28:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.adrianhurt:play-bootstrap_2.13:1.6.1-P28-B4:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: com.codeborne:phantomjsdriver:1.4.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.10.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.10.4:jar" level="project" />
