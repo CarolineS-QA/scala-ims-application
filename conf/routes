@@ -5,8 +5,9 @@
 
 # An example controller showing a sample home page
 GET     /                                   controllers.HomeController.index()
-GET     /explore                            controllers.HomeController.explore()
-GET     /tutorial                           controllers.HomeController.tutorial()
+GET     /customerPage                       controllers.HomeController.customerPage()
+GET     /productPage                        controllers.HomeController.productPage()
+GET     /orderPage                          controllers.HomeController.orderPage()
 GET     /datatest                           controllers.HomeController.datatest(name: String)
 #GET     /findCustomerByNameHome            controllers.HomeController.findCustomerByNameHome(name: String)
 

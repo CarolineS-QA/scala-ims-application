@@ -31,13 +31,19 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index())
   }
   
-  def explore(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.explore())
+  def customerPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerPage())
+  }
+
+  def productPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.productPage())
   }
   
-  def tutorial(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.tutorial())
+  def orderPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.orderPage())
   }
+
+  
 
   def datatest(name: String): Action[AnyContent] = Action {
     val borth = findCustomerByName(name).forename
