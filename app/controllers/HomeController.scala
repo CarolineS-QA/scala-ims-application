@@ -43,11 +43,12 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.orderPage())
   }
 
-  
-
-  def datatest(name: String): Action[AnyContent] = Action {
-    val borth = findCustomerByName(name).forename
-    Ok(s"stuff $borth")
+  def dataFindCustomerByName(name: String): Action[AnyContent] = Action {
+    val uname = findCustomerByName(name).username
+    val fname = findCustomerByName(name).forename
+    val sname = findCustomerByName(name).surname
+    val uage = findCustomerByName(name).age
+    Ok(s"stuff $uname")
   }
 
 
