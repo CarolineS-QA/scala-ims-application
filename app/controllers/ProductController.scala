@@ -1,8 +1,8 @@
 package controllers
 
 
-import com.qa.ims.model.ProductModel
 import configuration.MongoConfiguration.{productCollection, productReader, productWriter}
+import model.ProductModel
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
 import reactivemongo.api.bson.{BSONDocument, document}
@@ -35,8 +35,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(_) =>
-        throw new NoSuchElementException
+      case Failure(_) => throw new NoSuchElementException
     }
     Await.result(findFuture, Duration.Inf).get
   }
@@ -46,7 +45,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(_) =>
+      case Failure(_) => throw new NoSuchElementException
     }
     Await.result(findFuture, Duration.Inf).get
   }
@@ -56,7 +55,7 @@ object ProductController {
     val findFuture = productCollection.flatMap(_.find(selector, None).one)
     findFuture onComplete {
       case Success(productOption) => println(productOption.get)
-      case Failure(_) =>
+      case Failure(_) => throw new NoSuchElementException
     }
     Await.result(findFuture, Duration.Inf).get
   }
@@ -72,7 +71,4 @@ object ProductController {
     val selector = document("_id" -> id)
     productCollection.flatMap(_.delete.one(selector))
   }
-
-
-
 }

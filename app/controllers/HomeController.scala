@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.CustomerController.findCustomerByName
 import javax.inject._
 import play.api.mvc._
 import play.twirl.api.Content
@@ -33,6 +34,10 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def datatest(id: Int): Action[AnyContent] = Action {
     Ok(s"stuff $id")
+  }
+
+  def findCustomerByNameHome(name: String): Action[AnyContent] = Action {
+    Ok(findCustomerByName("Borth"))
   }
   
 }

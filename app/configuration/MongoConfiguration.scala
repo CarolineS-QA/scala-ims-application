@@ -1,6 +1,10 @@
 package configuration
 
-import com.qa.ims.model.{CustomerModel, OrderModel, ProductModel}
+import model.{CustomerModel, OrderModel, ProductModel}
+import play.api.http.Writeable
+import play.api.libs.json.Json
+import reactivemongo.play.json._
+import play.api.mvc.Codec
 import reactivemongo.api.bson.{BSONDocumentReader, BSONDocumentWriter, Macros}
 import reactivemongo.api.bson.collection.BSONCollection
 import reactivemongo.api.{AsyncDriver, DB, MongoConnection}
@@ -23,6 +27,9 @@ object MongoConfiguration {
   def productCollection: Future[BSONCollection] = db.map(_.collection("product"))
   def orderCollection: Future[BSONCollection] = db.map(_.collection("order"))
 
+
+
+
   @nowarn
   implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]
   @nowarn
@@ -36,4 +43,8 @@ object MongoConfiguration {
   @nowarn
   implicit def orderReader: BSONDocumentReader[OrderModel] = Macros.reader[OrderModel]
 
+
+  implicit def customerPlayWriter = Json.writes[CustomerModel]
+
+  implicit def customerPlayReader = Json.reads[CustomerModel]
 }

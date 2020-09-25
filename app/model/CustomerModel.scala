@@ -1,4 +1,4 @@
-package com.qa.ims.model
+package model
 
 import reactivemongo.api.bson.BSONString
 

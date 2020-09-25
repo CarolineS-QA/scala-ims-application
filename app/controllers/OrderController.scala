@@ -2,9 +2,9 @@ package controllers
 
 import java.util.Calendar
 
-import com.qa.ims.model.OrderModel
 import configuration.MongoConfiguration.{orderCollection, orderReader, orderWriter}
 import controllers.ProductController.findProductByName
+import model.OrderModel
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, BSONElement, BSONInteger, BSONObjectID, BSONString, document}
 import reactivemongo.api.commands.WriteResult

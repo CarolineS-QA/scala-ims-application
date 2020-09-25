@@ -1,7 +1,7 @@
 package controllers
 
-import com.qa.ims.model.CustomerModel
 import configuration.MongoConfiguration.{customerCollection, customerReader, customerWriter}
+import model.CustomerModel
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.compat.{legacyWriterNewValue, toDocumentWriter}
 import reactivemongo.api.bson.{BSONDocument, document}
