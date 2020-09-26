@@ -8,7 +8,7 @@ GET     /                                   controllers.HomeController.index()
 GET     /customerPage                       controllers.HomeController.customerPage()
 GET     /productPage                        controllers.HomeController.productPage()
 GET     /orderPage                          controllers.HomeController.orderPage()
-GET     /dataFindCustomerByName             controllers.HomeController.dataFindCustomerByName(name: String)
+GET     /findCustomerByNameHome             controllers.HomeController.dataFindCustomerByName(name: String)
 #GET     /findCustomerByNameHome            controllers.HomeController.findCustomerByNameHome(name: String)
 
 

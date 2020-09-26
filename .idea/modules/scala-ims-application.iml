@@ -124,6 +124,7 @@
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-bson-compat_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-bson_2.13:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-core_2.13:0.20.11:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-play-json-compat_2.13:0.20.11-play28:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-play-json_2.13:0.20.11-play28:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo-shaded:0.20.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivemongo:reactivemongo_2.13:0.20.11:jar" level="project" />

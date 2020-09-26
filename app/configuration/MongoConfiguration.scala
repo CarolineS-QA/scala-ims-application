@@ -8,6 +8,7 @@ import play.api.mvc.Codec
 import reactivemongo.api.bson.{BSONDocumentReader, BSONDocumentWriter, Macros}
 import reactivemongo.api.bson.collection.BSONCollection
 import reactivemongo.api.{AsyncDriver, DB, MongoConnection}
+import reactivemongo.play.json.collection.JSONCollection
 
 import scala.annotation.nowarn
 import scala.concurrent.{ExecutionContext, Future}
@@ -23,9 +24,9 @@ object MongoConfiguration {
 
   val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect)
   def db: Future[DB] = connection.flatMap(_.database("DbIMS"))
-  def customerCollection: Future[BSONCollection] = db.map(_.collection("customer"))
-  def productCollection: Future[BSONCollection] = db.map(_.collection("product"))
-  def orderCollection: Future[BSONCollection] = db.map(_.collection("order"))
+  def customerCollection: Future[JSONCollection] = db.map(_.collection[JSONCollection]("customer"))
+  def productCollection: Future[JSONCollection] = db.map(_.collection[JSONCollection]("product"))
+  def orderCollection: Future[JSONCollection] = db.map(_.collection[JSONCollection]("order"))
 
   @nowarn
   implicit def customerWriter: BSONDocumentWriter[CustomerModel] = Macros.writer[CustomerModel]

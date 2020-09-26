@@ -1,5 +1,4 @@
 @()
-
 @main("Welcome") {
 @defining(play.core.PlayVersion.current) { version =>
 <section id="content">
@@ -9,9 +8,10 @@
     <article style="margin-left: 20px;">
         <h1>About</h1>
         <p>The Redfern Inventory Management System is an application which allows you to access and manipulate your database.</p>
-        <p>For more information on its use, please consult the README.</p>
+        <p>For more information on its use, please consult the README. </p>
       </div>
     </article>
+    <p>Now, let's <a href='@routes.HomeController.dataFindCustomerByName("Borth")'>explore the tutorial Play application</a>.</p>
 </section>
 }
 }

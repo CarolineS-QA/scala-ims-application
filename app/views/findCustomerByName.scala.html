@@ -1,19 +1,20 @@
-@()
+@(name: String)
 
 @defining(play.core.PlayVersion.current) { version =>
 
 <section>
 
     <form style="margin-left: 25px;">
-        <label for="usernameId">Username</label>
-        <input type="text" id="usernameId" name="usernameId"><br><br>
-        <a type="button" id="link2" >rthfty7ujyukguyik</a>
+        <label for="datatest">Username</label>
+        <input type="text" id="datatest" name="datatest"><br><br>
+        <input type="button" onclick="nameTest()" >
     </form>
-
-    <a id="link2">sergdrhhy</a>
-    <p style="margin-left: 25px;">Now, let's <a id="link2">explore the tutorial Play application</a>.</p>
-    <p style="margin-left: 25px;">wefsegdrthdtry</p>
-
+    <button onclick="myFunction()">Try it</button>
+    <a id="demo" >wfsedgdrthdrtyh </a>
+    <code @name = {"hnfgnmfg"}></code>
+    @name = {"hnfgnmfg"}
+<p>@name</p>
+    <p>Now, let's <a href="@routes.HomeController.dataFindCustomerByName("@name")">explore the tutorial Play application</a>.</p>
 </section>
 
 
