@@ -8,8 +8,7 @@ GET     /                                   controllers.HomeController.index()
 GET     /customerPage                       controllers.HomeController.customerPage()
 GET     /productPage                        controllers.HomeController.productPage()
 GET     /orderPage                          controllers.HomeController.orderPage()
-GET     /findCustomerByNameHome             controllers.HomeController.dataFindCustomerByName(name: String)
-#GET     /findCustomerByNameHome            controllers.HomeController.findCustomerByNameHome(name: String)
+GET     /findByUsername                     controllers.HomeController.findByUsername(username: String)
 
 
 # Map static resources from the /public folder to the /assets URL path

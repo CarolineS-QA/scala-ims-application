@@ -2,7 +2,6 @@ package controllers
 
 import configuration.MongoConfiguration
 import configuration.MongoConfiguration.customerCollection
-import controllers.CustomerController.findCustomerByName
 import javax.inject.Inject
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -49,7 +48,6 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
    */
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    findCustomerByName("Borth")
     Ok(views.html.index())
   }
   
@@ -63,14 +61,6 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
   
   def orderPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.orderPage())
-  }
-
-  def dataFindCustomerByName(name: String): Action[AnyContent] = Action {
-    val uname = findCustomerByName(name).username
-    val fname = findCustomerByName(name).forename
-    val sname = findCustomerByName(name).surname
-    val uage = findCustomerByName(name).age
-    Ok(s"$name has the following details. Username: $uname; Forename: $fname; Surname: $sname; Age: $uage").as("text/plain")
   }
 
 
@@ -133,10 +123,5 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
       Ok(persons)
     }
   }
-
-
-
-
-
 }
 
