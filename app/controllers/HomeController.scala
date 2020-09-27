@@ -8,6 +8,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import play.api.Logger
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Request}
 import play.api.libs.functional.syntax._
+
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
 
 
@@ -67,9 +68,10 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     Ok(views.html.customerForms(CustomerForm.form))
   }
 
-  def customerFormsPost() = Action { implicit request =>
+  def customerFormsPost(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
-    Ok(formData.toString) // just returning the data because it's an example :)
+    customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
+      Ok("Mongo LastError: %s".format(lastError)))
   }
 
 
