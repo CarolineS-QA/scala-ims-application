@@ -11,6 +11,7 @@ import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponent
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
 import reactivemongo.api.bson.document
+import reactivemongo.api.commands.WriteResult
 
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
@@ -65,11 +66,11 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     Ok(views.html.orderPage())
   }
 
-  def customerForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+  def customerCreateForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.customerForms(CustomerForm.form))
   }
 
-  def customerFormsPost(): Action[AnyContent] = Action.async  { implicit request =>
+  def customerCreateFormsPost(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
       Ok(views.html.customerPage()))
@@ -91,9 +92,7 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     futureCustomersJsonArray.map { customers =>
       Ok(customers)
     }
-
   }
-
 
   def findByUsername(username: String): Action[AnyContent] = Action.async {
     // let's do our query
@@ -119,5 +118,27 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
       Ok(customers)
     }
   }
+
+  def customerUpdateForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerForms(CustomerForm.form))
+  }
+
+  def customerUpdateFormsPut(username: String): Action[AnyContent] = Action.async  { implicit request =>
+    val selector = Json.obj("username" -> username)
+    val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    customerCollection.flatMap(_.update.one(selector, formData)).map(lastError =>
+      Ok(views.html.customerPage()))
+  }
+
+  def customerDeleteForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerDeleteForms(CustomerForm.form))
+  }
+
+  def customerDeleteFormsDelete(username: String): Action[AnyContent] = Action.async { implicit request =>
+    val selector = Json.obj("username" -> username)
+    customerCollection.flatMap(_.delete.one(selector)).map(lastError => Ok(views.html.customerPage()))
+  }
+
+
 }
 

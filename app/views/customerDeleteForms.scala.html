@@ -5,12 +5,8 @@
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
-    @form(action = routes.HomeController.customerCreateFormsPost()) {
+    @form(action = routes.HomeController.customerDeleteFormsDelete("student")) {
     @inputText(customerForm("username"))
-    @inputText(customerForm("forename"))
-    @inputText(customerForm("surname"))
-    @inputText(customerForm("age"))
-
 
     <input type="submit" value="Submit">
 </div>
