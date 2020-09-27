@@ -3,16 +3,17 @@ package controllers
 import configuration.MongoConfiguration
 import configuration.MongoConfiguration.customerCollection
 import javax.inject.Inject
+import model.CustomerModel
 
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.Logger
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Request}
 import play.api.libs.functional.syntax._
-
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
-
+import reactivemongo.api.bson.document
 
 import scala.language.postfixOps
+import scala.util.{Failure, Success}
 // Reactive Mongo imports
 import reactivemongo.api.Cursor
 import reactivemongo.api.ReadPreference
@@ -71,8 +72,28 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
   def customerFormsPost(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
-      Ok("Mongo LastError: %s".format(lastError)))
+      Ok(views.html.customerPage()))
   }
+
+  def customerFindAll(): Action[AnyContent] = Action.async {
+    val cursor: Future[Cursor[JsObject]] = customerCollection.map {
+      _.find(Json.obj()).sort(Json.obj("created" -> 1)).cursor[JsObject](ReadPreference.primary)
+    }
+    // gather all the JsObjects in a list
+    val futureCustomersList: Future[List[JsObject]] =
+      cursor.flatMap(_.collect[List](-1, Cursor.FailOnError[List[JsObject]]()))
+
+    // transform the list into a JsArray
+    val futureCustomersJsonArray: Future[JsArray] =
+      futureCustomersList.map { customers => Json.arr(customers) }
+
+    // everything's ok! Let's reply with the array
+    futureCustomersJsonArray.map { customers =>
+      Ok(customers)
+    }
+
+  }
+
 
   def findByUsername(username: String): Action[AnyContent] = Action.async {
     // let's do our query
@@ -86,16 +107,16 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     }
 
     // gather all the JsObjects in a list
-    val futurePersonsList: Future[List[JsObject]] =
+    val futureCustomersList: Future[List[JsObject]] =
       cursor.flatMap(_.collect[List](-1, Cursor.FailOnError[List[JsObject]]()))
 
     // transform the list into a JsArray
-    val futurePersonsJsonArray: Future[JsArray] =
-      futurePersonsList.map { persons => Json.arr(persons) }
+    val futureCustomersJsonArray: Future[JsArray] =
+      futureCustomersList.map { customers => Json.arr(customers) }
 
     // everything's ok! Let's reply with the array
-    futurePersonsJsonArray.map { persons =>
-      Ok(persons)
+    futureCustomersJsonArray.map { customers =>
+      Ok(customers)
     }
   }
 }

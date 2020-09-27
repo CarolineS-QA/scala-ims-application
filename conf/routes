@@ -8,9 +8,15 @@ GET     /                                   controllers.HomeController.index()
 GET     /customerPage                       controllers.HomeController.customerPage()
 GET     /productPage                        controllers.HomeController.productPage()
 GET     /orderPage                          controllers.HomeController.orderPage()
+
+
+# Customer
+GET     /customerFindAll                     controllers.HomeController.customerFindAll()
 GET     /findByUsername                     controllers.HomeController.findByUsername(username: String)
 
+
 GET     /customerForms                      controllers.HomeController.customerForms
++ nocsrf
 POST    /customerForms                      controllers.HomeController.customerFormsPost
 
 
