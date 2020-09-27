@@ -1,0 +1,15 @@
+@import helper._
+
+@(customerForm: Form[CustomerForm])(implicit messages: Messages)
+
+@main("Scala Play forms tutorial") {
+<h1>Scala Play forms tutorial</h1>
+    @form(action = routes.HomeController.customerFormsPost()) {
+    @inputText(customerForm("username"))
+    @inputText(customerForm("forename"))
+    @inputText(customerForm("surname"))
+    @inputText(customerForm("age"))
+
+    <input type="submit" value="Submit">
+    }
+}

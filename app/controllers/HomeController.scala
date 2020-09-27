@@ -32,7 +32,7 @@ import reactivemongo.play.json._, collection._
  */
 
 class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: ReactiveMongoApi)
-  extends AbstractController(cc) with MongoController with ReactiveMongoComponents {
+  extends AbstractController(cc) with MongoController with ReactiveMongoComponents  with play.api.i18n.I18nSupport {
 
   implicit def ec: ExecutionContext = cc.executionContext
 
@@ -63,8 +63,17 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     Ok(views.html.orderPage())
   }
 
+  def customerForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerForms(CustomerForm.form))
+  }
 
-  def create(username: String, forename: String, surname: String, age: Int): Action[AnyContent] = Action.async {
+  def customerFormsPost() = Action { implicit request =>
+    val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    Ok(formData.toString) // just returning the data because it's an example :)
+  }
+
+
+  def customerCreate(username: String, forename: String, surname: String, age: Int): Action[AnyContent] = Action.async {
     val json = Json.obj(
       "username" -> username,
       "forename" -> forename,
