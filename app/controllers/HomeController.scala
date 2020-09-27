@@ -74,42 +74,6 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
       Ok("Mongo LastError: %s".format(lastError)))
   }
 
-
-  def customerCreate(username: String, forename: String, surname: String, age: Int): Action[AnyContent] = Action.async {
-    val json = Json.obj(
-      "username" -> username,
-      "forename" -> forename,
-      "surname" -> surname,
-      "age" -> age,
-      "created" -> new java.util.Date().getTime())
-
-    customerCollection.flatMap(_.insert.one(json)).map(lastError =>
-      Ok("Mongo LastError: %s".format(lastError)))
-  }
-
-  def createFromJson: Action[JsValue] = Action.async(parse.json) { request =>
-    import play.api.libs.json.Reads._
-    /*
-     * request.body is a JsValue.
-     * There is an implicit Writes that turns this JsValue as a JsObject,
-     * so you can call insert.one() with this JsValue.
-     * (insert.one() takes a JsObject as parameter, or anything that can be
-     * turned into a JsObject using a Writes.)
-     */
-    val transformer: Reads[JsObject] =
-      Reads.jsPickBranch[JsString](__ \ "username") and
-        Reads.jsPickBranch[JsString](__ \ "forename") and
-        Reads.jsPickBranch[JsString](__ \ "surname") and
-        Reads.jsPickBranch[JsNumber](__ \ "age") reduce
-
-    request.body.transform(transformer).map { result =>
-      customerCollection.flatMap(_.insert.one(result)).map { lastError =>
-        println(s"Successfully inserted with LastError: $lastError")
-        Created
-      }
-    }.getOrElse(Future.successful(BadRequest("invalid JSON")))
-  }
-
   def findByUsername(username: String): Action[AnyContent] = Action.async {
     // let's do our query
     val cursor: Future[Cursor[JsObject]] = customerCollection.map {
