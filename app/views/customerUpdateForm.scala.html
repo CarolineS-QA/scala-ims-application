@@ -1,15 +1,15 @@
 @import helper._
 
-@(customerForm: Form[CustomerForm])(implicit request: RequestHeader, messages: Messages)
+@(customerUpdateForm: Form[CustomerForm])(implicit request: RequestHeader, messages: Messages)
 
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
     @form(action = routes.CustomerController.customerUpdateFormAction()) {
-    @inputText(customerForm("username"))
-    @inputText(customerForm("forename"))
-    @inputText(customerForm("surname"))
-    @inputText(customerForm("age"))
+    @inputText(customerUpdateForm("username"))
+    @inputText(customerUpdateForm("forename"))
+    @inputText(customerUpdateForm("surname"))
+    @inputText(customerUpdateForm("age"))
 
 
     <input type="submit" value="Submit">
