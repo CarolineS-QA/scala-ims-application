@@ -1,4 +1,4 @@
-package forms
+package controllers
 
 import play.api.data.Form
 import play.api.data.Forms.{mapping, number, text}
@@ -8,7 +8,7 @@ case class CustomerCreateForm(username: String, forename: String, surname: Strin
 
 object CustomerCreateForm {
   implicit val customerWrite: OWrites[CustomerCreateForm] = Json.writes[CustomerCreateForm]
-  val formSet: Form[CustomerCreateForm] = Form(
+  val formSet: Form[CustomerCreateForm] = Form[CustomerCreateForm](
     mapping(
       "username" -> text,
       "forename" -> text,

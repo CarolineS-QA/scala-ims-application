@@ -2,7 +2,6 @@ package controllers
 
 import configuration.MongoConfiguration
 import configuration.MongoConfiguration.customerCollection
-import forms.CustomerForm
 import javax.inject.Inject
 import model.CustomerModel
 
