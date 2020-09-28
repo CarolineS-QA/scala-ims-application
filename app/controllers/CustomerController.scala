@@ -29,11 +29,6 @@ import play.modules.reactivemongo.{ // ReactiveMongo Play2 plugin
 import reactivemongo.play.json._, collection._
 
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
-
 class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoApi: ReactiveMongoApi)
   extends AbstractController(cc) with MongoController with ReactiveMongoComponents  with play.api.i18n.I18nSupport {
 
