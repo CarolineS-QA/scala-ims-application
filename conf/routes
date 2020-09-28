@@ -23,6 +23,14 @@ POST    /customerForms                      controllers.CustomerController.custo
 PUT     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
 DELETE  /customerDeleteForm                 controllers.CustomerController.customerDeleteFormAction
 
+#Product
+GET     /productFindAll                    controllers.ProductController.productFindAll()
+GET     /findByProductName                 controllers.ProductController.findByProductName(name: String)
+
+GET     /productCreateForm                 controllers.ProductController.productCreateForm
++ nocsrf
+POST    /productForm                       controllers.ProductController.productCreateFormAction
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
