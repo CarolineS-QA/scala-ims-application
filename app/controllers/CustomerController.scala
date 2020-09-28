@@ -42,11 +42,11 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   MongoConfiguration
 
 
-  def customerCreateForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerForms(CustomerForm.form))
+  def customerCreateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerCreateForm(CustomerForm.form))
   }
 
-  def customerCreateFormsAction(): Action[AnyContent] = Action.async  { implicit request =>
+  def customerCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
       Ok(views.html.customerPage()))
@@ -95,11 +95,11 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
     }
   }
 
-  def customerUpdateForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerUpdateForms(CustomerForm.form))
+  def customerUpdateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerUpdateForm(CustomerForm.form))
   }
 
-  def customerUpdateFormsAction(): Action[AnyContent] = Action.async  { implicit request =>
+  def customerUpdateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     val username = formData.username
     val forename = formData.forename
@@ -109,11 +109,11 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
       Ok(views.html.customerPage()))
   }
 
-  def customerDeleteForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerDeleteForms(CustomerDeleteForm.form))
+  def customerDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.customerDeleteForm(CustomerDeleteForm.form))
   }
 
-  def customerDeleteFormsAction(): Action[AnyContent] = Action.async { implicit request =>
+  def customerDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
     val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
     val username = formData.username
     customerCollection.flatMap(_.delete.one(Json.obj("username" -> username))).map(_ => Ok(views.html.customerPage()))

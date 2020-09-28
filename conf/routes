@@ -14,14 +14,14 @@ GET     /orderPage                          controllers.HomeController.orderPage
 GET     /customerFindAll                    controllers.CustomerController.customerFindAll()
 GET     /findByUsername                     controllers.CustomerController.findByUsername(username: String)
 
-GET     /customerForms                      controllers.CustomerController.customerCreateForms
-GET     /customerUpdateForms                controllers.CustomerController.customerUpdateForms
-GET     /customerDeleteForms                controllers.CustomerController.customerDeleteForms
+GET     /customerCreateForm                 controllers.CustomerController.customerCreateForm
+GET     /customerUpdateForm                 controllers.CustomerController.customerUpdateForm
+GET     /customerDeleteForm                 controllers.CustomerController.customerDeleteForm
 + nocsrf
-POST    /customerForms                      controllers.CustomerController.customerCreateFormsAction
+POST    /customerForms                      controllers.CustomerController.customerCreateFormAction
 + nocsrf
-PUT     /customerUpdateForms                controllers.CustomerController.customerUpdateFormsAction
-DELETE  /customerDeleteForms                controllers.CustomerController.customerDeleteFormsAction
+PUT     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
+DELETE  /customerDeleteForm                 controllers.CustomerController.customerDeleteFormAction
 
 
 # Map static resources from the /public folder to the /assets URL path
