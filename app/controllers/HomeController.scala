@@ -2,6 +2,7 @@ package controllers
 
 import configuration.MongoConfiguration
 import configuration.MongoConfiguration.customerCollection
+import forms.CustomerForm
 import javax.inject.Inject
 import model.CustomerModel
 
@@ -70,7 +71,7 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
     Ok(views.html.customerForms(CustomerForm.form))
   }
 
-  def customerCreateFormsPost(): Action[AnyContent] = Action.async  { implicit request =>
+  def customerCreateFormsAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
       Ok(views.html.customerPage()))

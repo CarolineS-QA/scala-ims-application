@@ -18,7 +18,7 @@ GET     /customerForms                      controllers.HomeController.customerC
 GET     /customerUpdateForms                controllers.HomeController.customerUpdateForms
 GET     /customerDeleteForms                controllers.HomeController.customerDeleteForms
 + nocsrf
-POST    /customerForms                      controllers.HomeController.customerCreateFormsPost
+POST    /customerForms                      controllers.HomeController.customerCreateFormsAction
 + nocsrf
 PUT     /customerUpdateForms                controllers.HomeController.customerUpdateFormsPut(username: String)
 DELETE  /customerDeleteFormsDelete          controllers.HomeController.customerDeleteFormsDelete(username: String)
