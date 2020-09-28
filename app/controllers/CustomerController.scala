@@ -96,24 +96,26 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   }
 
   def customerUpdateForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerForms(CustomerForm.form))
+    Ok(views.html.customerUpdateForms(CustomerForm.form))
   }
 
-  def customerUpdateFormsPut(username: String): Action[AnyContent] = Action.async  { implicit request =>
-    val selector = Json.obj("username" -> username)
+  def customerUpdateFormsAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
-    customerCollection.flatMap(_.update.one(selector, formData)).map(lastError =>
+    val username = formData.username
+    val forename = formData.forename
+    val surname = formData.surname
+    val age = formData.age
+    customerCollection.flatMap(_.update.one(Json.obj("username" -> username), Json.obj("forename" -> forename, "surname" -> surname, "age" -> age))).map(lastError =>
       Ok(views.html.customerPage()))
   }
 
   def customerDeleteForms(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerDeleteForms(CustomerForm.form))
+    Ok(views.html.customerDeleteForms(CustomerDeleteForm.form))
   }
 
-  def customerDeleteFormsDelete(username: String): Action[AnyContent] = Action.async { implicit request =>
-    val selector = Json.obj("username" -> username)
-    customerCollection.flatMap(_.delete.one(selector)).map(lastError => Ok(views.html.customerPage()))
+  def customerDeleteFormsAction(): Action[AnyContent] = Action.async { implicit request =>
+    val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
+    val username = formData.username
+    customerCollection.flatMap(_.delete.one(Json.obj("username" -> username))).map(_ => Ok(views.html.customerPage()))
   }
-
-
 }

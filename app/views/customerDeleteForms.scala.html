@@ -1,11 +1,11 @@
 @import helper._
 
-@(customerForm: Form[CustomerForm])(implicit request: RequestHeader, messages: Messages)
+@(customerForm: Form[CustomerDeleteForm])(implicit request: RequestHeader, messages: Messages)
 
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
-    @form(action = routes.CustomerController.customerDeleteFormsDelete("student")) {
+    @form(action = routes.CustomerController.customerDeleteFormsAction()) {
     @inputText(customerForm("username"))
 
     <input type="submit" value="Submit">
