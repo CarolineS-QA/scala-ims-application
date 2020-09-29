@@ -1,0 +1,16 @@
+@import helper._
+
+@(orderForm: Form[OrderForm])(implicit request: RequestHeader, messages: Messages)
+
+@main("Scala Play forms tutorial") {
+<h1>Scala Play forms tutorial</h1>
+<div style="margin-left: 48px">
+    @form(action = routes.OrderController.orderCreateFormAction()) {
+    @inputText(orderForm("username"))
+
+
+
+    <input type="submit" value="Submit">
+</div>
+}
+}

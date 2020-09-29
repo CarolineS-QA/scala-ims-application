@@ -24,12 +24,19 @@ PUT     /customerUpdateForm                 controllers.CustomerController.custo
 DELETE  /customerDeleteForm                 controllers.CustomerController.customerDeleteFormAction
 
 #Product
-GET     /productFindAll                    controllers.ProductController.productFindAll()
-GET     /findByProductName                 controllers.ProductController.findByProductName(name: String)
+GET     /productFindAll                     controllers.ProductController.productFindAll()
+GET     /findByProductName                  controllers.ProductController.findByProductName(name: String)
 
-GET     /productCreateForm                 controllers.ProductController.productCreateForm
+GET     /productCreateForm                  controllers.ProductController.productCreateForm
 + nocsrf
-POST    /productForm                       controllers.ProductController.productCreateFormAction
+POST    /productForm                        controllers.ProductController.productCreateFormAction
+
+#Order
+GET     /orderFindAll                       controllers.OrderController.orderFindAll()
+
+GET     /orderCreateForm                    controllers.OrderController.orderCreateForm
++ nocsrf
+POST    /orderForm                          controllers.OrderController.orderCreateFormAction
 
 
 # Map static resources from the /public folder to the /assets URL path

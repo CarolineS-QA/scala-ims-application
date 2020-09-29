@@ -12,7 +12,7 @@ object OrderForm {
   implicit val orderWrite: OWrites[OrderForm] = Json.writes[OrderForm]
   implicit val productListWrite: OWrites[ProductListForm] = Json.writes[ProductListForm]
 
-  val form = Form(
+  val form: Form[OrderForm] = Form(
     mapping(
       "username" -> text,
       "products" -> list(mapping(
