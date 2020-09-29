@@ -1,0 +1,45 @@
+.logo {
+    max-width: 612px;
+    width: 100%;
+    height: auto;
+}
+
+.banner {
+    background-color: #000000;
+}
+
+a {
+    font-family:'Mesa Pixel', tahoma, verdana, arial, sans-serif;
+    font-size:12px;
+    margin-left: 48px
+}
+
+p { 
+    font-family:'Mesa Pixel', tahoma, verdana, arial, sans-serif; 
+    font-size:12px;
+}
+
+h1 {
+    font-family:'Mesa Pixel', tahoma, verdana, arial, sans-serif; 
+    font-size:36px;
+}
+
+h2 {
+    font-family:'Mesa Pixel', tahoma, verdana, arial, sans-serif; 
+    font-size:24px;
+}
+
+@font-face {
+    font-family: 'Mesa Pixel';
+    src: url('../fonts/MesaPixel.ttf') format('truetype');
+}
+
+hr { 
+    position: relative; 
+    top: 5px; 
+    border: none;
+    height: 12px; 
+    background: black; 
+    margin-bottom: 12px; 
+    color: #00ceff;
+}
