@@ -17,3 +17,17 @@ object CustomerForm {
     )(CustomerForm.apply)(CustomerForm.unapply)
   )
 }
+
+/*
+object CustomerFormUpdate {
+  implicit val customerWrite: OWrites[CustomerForm] = Json.writes[CustomerForm]
+  val form: Form[CustomerForm] = Form(
+    mapping(
+      "username" -> text,
+      "forename" -> text,
+      "surname" -> text,
+      "age" -> number
+    )(CustomerForm.apply)(CustomerForm.unapply)
+  )
+}
+ */
