@@ -4,34 +4,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                                   controllers.HomeController.index()
-GET     /customerPage                       controllers.HomeController.customerPage()
-GET     /productPage                        controllers.HomeController.productPage()
-GET     /orderPage                          controllers.HomeController.orderPage()
-
-
-# Customer
-GET     /customerFindAll                    controllers.CustomerController.customerFindAll()
-GET     /findByUsername                     controllers.CustomerController.findByUsername(username: String)
-
-GET     /customerCreateForm                 controllers.CustomerController.customerCreateForm
-GET     /customerUpdateForm                 controllers.CustomerController.customerUpdateForm
-GET     /customerDeleteForm                 controllers.CustomerController.customerDeleteForm
-+ nocsrf
-POST    /customerForms                      controllers.CustomerController.customerCreateFormAction
-+ nocsrf
-PUT     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
-DELETE  /customerDeleteForm                 controllers.CustomerController.customerDeleteFormAction
-
-#Product
-GET     /productFindAll                    controllers.ProductController.productFindAll()
-GET     /findByProductName                 controllers.ProductController.findByProductName(name: String)
-
-GET     /productCreateForm                 controllers.ProductController.productCreateForm
-+ nocsrf
-POST    /productForm                       controllers.ProductController.productCreateFormAction
-
+GET     /                           controllers.HomeController.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
