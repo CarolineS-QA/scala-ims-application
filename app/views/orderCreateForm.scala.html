@@ -8,12 +8,13 @@
     @form(action = routes.OrderController.orderCreateFormAction()) {
     @inputText(orderForm("username"))
     @repeat(orderForm("products"), min = 1) { products =>
-        @inputText(orderForm("products"))
+        @inputText(orderForm("name"))
     }
     @inputText(orderForm("date"))
     @inputText(orderForm("totalPrice"))
 
     <input type="submit" value="Submit">
+
 </div>
 }
 }

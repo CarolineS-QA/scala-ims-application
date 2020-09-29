@@ -43,6 +43,8 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    println(formData.products)
+    println(formData.username)
     orderCollection.flatMap(_.insert.one(formData)).map(lastError =>
       Ok(views.html.orderPage()))
   }
