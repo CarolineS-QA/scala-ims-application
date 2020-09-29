@@ -100,8 +100,8 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
     val forename = formData.forename
     val surname = formData.surname
     val age = formData.age
-    customerCollection.flatMap(_.update.one(Json.obj("username" -> username), Json.obj("forename" -> forename, "surname" -> surname, "age" -> age))).map(lastError =>
-      Ok(views.html.customerPage()))
+    customerCollection.flatMap(_.update.one(Json.obj("username" -> username), formData).map(formData =>
+      Ok(views.html.customerPage())))
   }
 
   def customerDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
