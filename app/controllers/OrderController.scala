@@ -32,10 +32,10 @@ import reactivemongo.play.json._, collection._
 class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: ReactiveMongoApi)
   extends AbstractController(cc) with MongoController with ReactiveMongoComponents  with play.api.i18n.I18nSupport {
 
-
   implicit def ec: ExecutionContext = cc.executionContext
 
   MongoConfiguration
+
 
   def orderCreateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.orderCreateForm(OrderForm.form))
