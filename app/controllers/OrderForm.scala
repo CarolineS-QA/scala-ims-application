@@ -23,5 +23,18 @@ object OrderForm {
       "totalPrice" -> bigDecimal
     )(OrderForm.apply)(OrderForm.unapply)
   )
+
 }
 
+
+//val form = Form(
+//mapping(
+//"username" -> text,
+//"products" -> list(mapping(
+//"name" -> text,
+//"quantity" -> longNumber
+//)(ProductListForm.apply)(ProductListForm.unapply)),
+//"date" -> text,
+//"totalPrice" -> bigDecimal
+//)(OrderForm.apply, OrderForm.unapply)
+//)

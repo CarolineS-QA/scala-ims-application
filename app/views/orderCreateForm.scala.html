@@ -5,17 +5,17 @@
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
-    @form(action = routes.OrderController.orderCreateFormAction()) {
+    @helper.form(action = routes.OrderController.orderCreateFormAction()) {
 
-    @inputText(orderForm("username"))
+    @helper.inputText(orderForm("username"))
 
+    @helper.repeat(orderForm("products"), min = 1) { productList =>
+        @helper.inputText(productList("name"))
+        @helper.inputText(productList("quantity"))
+    }
 
-    @inputText(orderForm("products.name"))
-    @inputText(orderForm("products.quantity"))
-
-
-    @inputText(orderForm("date"))
-    @inputText(orderForm("totalPrice"))
+    @helper.inputText(orderForm("date"))
+    @helper.inputText(orderForm("totalPrice"))
 
 
     <input type="submit" value="Submit">
