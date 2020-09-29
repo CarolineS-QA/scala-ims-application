@@ -6,12 +6,17 @@
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
     @form(action = routes.OrderController.orderCreateFormAction()) {
+
     @inputText(orderForm("username"))
-    @repeat(orderForm("products"), min = 1) { products =>
-        @inputText(orderForm("name"))
-    }
+
+
+    @inputText(orderForm("products.name"))
+    @inputText(orderForm("products.quantity"))
+
+
     @inputText(orderForm("date"))
     @inputText(orderForm("totalPrice"))
+
 
     <input type="submit" value="Submit">
 
