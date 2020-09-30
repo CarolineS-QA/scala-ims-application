@@ -9,10 +9,10 @@
 
     @helper.inputText(orderForm("username"))
 
-    @helper.repeat(orderForm("products"), min = 1) { productList =>
-        @helper.inputText(productList("name"))
-        @helper.inputText(productList("quantity"))
-    }
+
+    @helper.inputText(orderForm("products.name"))
+    @helper.inputText(orderForm("products.quantity"))
+
 
     @helper.inputText(orderForm("date"))
     @helper.inputText(orderForm("totalPrice"))
