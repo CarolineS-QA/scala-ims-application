@@ -1,27 +1,56 @@
 @import helper._
 
-@(orderForm: Form[OrderForm])(implicit request: RequestHeader, messages: Messages)
+@(orderForm: Form[OrderForm], productIndex: Int)(implicit request: RequestHeader, messages: Messages)
 
 
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
-    @helper.form(action = routes.OrderController.orderCreateFormAction()) {
-
-    @helper.inputText(orderForm("username"))
-
-    @helper.repeat(orderForm("products"), min = 2) { productList =>
-        @helper.inputText(productList("name"))
-        @helper.inputText(productList("quantity"))
-
-    }
 
 
-    @helper.inputText(orderForm("date"))
-    @helper.inputText(orderForm("totalPrice"))
+    <button id="number" onclick="@{productIndex+1}" action="@productIndex+=1">Create widget</button>
+    @productIndex = @{productIndex+1}
+
+    @productIndex = #{script incrementValue()}
+
+    <form onclick=@{productIndex+1}>
+        <input type="button" value="HTML only" />
+    </form>
 
 
-    <input type="submit" value="Submit">
+        @helper.form(action = routes.OrderController.orderCreateFormAction()) {
+
+
+
+
+
+
+    <div class="job-data-map">
+        @helper.repeat(orderForm("products"), min = orderForm("products").indexes.length + 1) { productList =>
+
+            @productList("name").value.map {_ =>
+            @productList("quantity").value.map {_ =>
+            <div class="job-data-delete text-right"><a href="#">delete</a></div>
+            }
+            }
+
+        @helper.inputText(productList("name"), '_label -> "name", 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "name", 'class -> "job-data-key form-control form-inline-control")
+        @helper.inputText(productList("quantity"), '_label -> "quantity", 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "quantity", 'class -> "job-data-value form-control form-inline-control")
+
+        }
+
+        <div class="job-data-add text-right"><a href="#">add</a></div>
+    </div>
+
+
+        @helper.inputText(orderForm("username"))
+
+
+        @helper.inputText(orderForm("date"))
+        @helper.inputText(orderForm("totalPrice"))
+
+
+        <input type="submit" value="Submit">
 
 </div>
 }

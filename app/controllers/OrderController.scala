@@ -5,14 +5,17 @@ import configuration.MongoConfiguration.{customerCollection, orderCollection}
 import javax.inject.Inject
 import model.CustomerModel
 
+
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.Logger
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Request}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, MessagesRequest, Request}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
+import play.api.routing.Router.empty.routes
 import reactivemongo.api.bson.document
 import reactivemongo.api.commands.WriteResult
 
+import scala.collection.mutable
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
 // Reactive Mongo imports
@@ -36,9 +39,17 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
 
   MongoConfiguration
 
+  def orderProductIncrement(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    var productCounter: Int = 2
+    productCounter += 1
+    println(productCounter)
+    Ok("")
+  }
+
 
   def orderCreateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.orderCreateForm(OrderForm.form))
+    var productIndex: Int = 1;
+    Ok(views.html.orderCreateForm(OrderForm.form, productIndex))
   }
 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
