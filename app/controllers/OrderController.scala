@@ -42,9 +42,7 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
   }
 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
-    val formData: OrderForm = OrderForm.form.bindFromRequest(Map) // Careful: BasicForm.form.bindFromRequest returns an Option
-
-
+    val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
 
     println(formData.products)
     println(formData.username)

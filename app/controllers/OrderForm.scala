@@ -5,7 +5,7 @@ import play.api.data.{Form, Mapping}
 import play.api.data.Forms.{bigDecimal, list, longNumber, mapping, text, tuple}
 import play.api.libs.json.{Json, OWrites}
 
-case class OrderForm(username: String, products: (String, Long), date: String, totalPrice: BigDecimal)
+case class OrderForm(username: String, products: List[(String, Long)], date: String, totalPrice: BigDecimal)
 case class ProductListForm(name: String, quantity: Long)
 
 object OrderForm {
@@ -20,7 +20,7 @@ object OrderForm {
   val form: Form[OrderForm] = Form(
     mapping(
       "username" -> text,
-      "products" -> productListForm,
+      "products" -> list(productListForm),
       "date" -> text,
       "totalPrice" -> bigDecimal
     )(OrderForm.apply)(OrderForm.unapply)
