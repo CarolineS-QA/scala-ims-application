@@ -43,3 +43,141 @@ hr {
     margin-bottom: 12px; 
     color: #00ceff;
 }
+
+
+body {
+    padding-top: 60px; /* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+.flash-container {
+    text-align: center;
+}
+
+.flash-container div {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+a:link.piezoicon, a:visited.piezoicon {
+    color: #29aae1 !important;
+}
+
+a.piezoicon:hover, a.piezoicon:active, a.piezoicon:focus {
+    color: #2083AE;
+}
+
+div.jobs-list .list-group {
+    margin-bottom: 0px;
+}
+
+div.jobs-list .panel-heading {
+    padding: 0px 0px 0px 10px;
+}
+
+div.jobs-list .panel-body {
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+
+div.jobs-list .list-group-item {
+    border-style: none;
+    overflow: hidden;
+}
+
+div.jobs-list h5.title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    overflow: hidden;
+}
+
+div.jobs-list a[data-toggle="collapse"] {
+    display: block;
+    padding: 10px;
+}
+
+div.jobs-list a.list-group-item {
+    font-size: 12px;
+}
+
+h3.job-name {
+    max-width: 585px;
+}
+
+div.job-data-delete, div.job-data-add {
+    float: right;
+    margin-right: 240px;
+}
+
+.table-fixed-first-col {
+    width: auto;
+}
+
+.table-fixed-first-col td:first-child {
+    white-space: nowrap;
+}
+
+.table-fixed-first-col td:nth-child(2) {
+    width: 100%;
+}
+
+.job-data td:first-child {
+    width: 33%;
+}
+
+table > tbody > tr > td {
+    min-width: 150px;
+}
+
+.form-inline-control {
+    display: inline-block;
+    margin: 3px 2px;
+    margin-bottom: 6px;
+}
+
+.form-horizontal-inline {
+    margin-bottom: 0px;
+}
+
+.piezo-button {
+    padding: 6px 8px;
+    font-size: 20px;
+    line-height: 1.33;
+    color: #29aae1;
+}
+
+a.piezo-button:hover, a.piezo-button:focus {
+    color: #2083AE;
+}
+
+.piezo-label {
+    font-weight: normal;
+}
+
+.submit-btn {
+    margin-top: 10px;
+}
+
+.inline-header {
+    display: inline-block;
+}
+
+th, td {
+    word-wrap: break-word;
+}
+
+.column-long-content {
+    width: 17%;
+}
+
+.column-success {
+    width: 70px;
+}
+
+.table-fixed-layout {
+    table-layout: fixed;
+}
+
+.column-time {
+    min-width: 85px;
+}

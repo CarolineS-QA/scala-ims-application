@@ -24,16 +24,16 @@
     });
 
     $('.job-data-add').click(function () {
-        var key = $(this).prev().prev().clone();
-        var value = $(this).prev().clone();
+        var name = $(this).prev().prev().clone();
+        var quantity = $(this).prev().clone();
 
         $(this).prev().prev().before($('<div class="job-data-delete text-right"><a href="#">delete</a></div>'));
 
-        key.find('input').val('');
-        value.find('input').val('');
+        name.find('input').val('');
+        quantity.find('input').val('');
 
-        $(this).before(key);
-        $(this).before(value);
+        $(this).before(name);
+        $(this).before(quantity);
 
         fixDataMapIndexes();
     });
