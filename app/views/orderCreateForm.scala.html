@@ -2,6 +2,7 @@
 
 @(orderForm: Form[OrderForm])(implicit request: RequestHeader, messages: Messages)
 
+
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
@@ -9,10 +10,12 @@
 
     @helper.inputText(orderForm("username"))
 
-    @helper.repeat(orderForm("products"), min = 1) { productList =>
+    @helper.repeat(orderForm("products"), min = 2) { productList =>
         @helper.inputText(productList("name"))
         @helper.inputText(productList("quantity"))
+
     }
+
 
     @helper.inputText(orderForm("date"))
     @helper.inputText(orderForm("totalPrice"))
