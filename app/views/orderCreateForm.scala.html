@@ -14,14 +14,16 @@
         <div class="job-data-map">
             @helper.repeat(orderForm("products"), min = orderForm("products").indexes.length + 1) { dataMap =>
 
-            @dataMap("name").value.map { _ =>
-            @dataMap("quantity").value.map { _ =>
-            <div class="job-data-delete text-right"><a href="#">delete</a></div>
-            }
-            }
+                @dataMap("name").value.map { _ =>
+                    @dataMap("quantity").value.map { _ =>
+                        <div class="job-data-delete text-right"><a href="#">delete</a></div>
+                    }
+                }
 
-            @helper.inputText(dataMap("name"), '_label -> "name", 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "name", 'class -> "job-data-key form-control form-inline-control")
-            @helper.inputText(dataMap("quantity"), '_label -> "quantity", 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "quantity", 'class -> "job-data-value form-control form-inline-control")
+                @helper.inputText(dataMap("name"), 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "name", 'class -> "job-data-key form-control form-inline-control")
+                @helper.inputText(dataMap("quantity"), 'labelClass -> "col-sm-3 text-right", 'inputDivClass -> "col-sm-4", 'placeholder -> "quantity", 'class -> "job-data-value form-control form-inline-control")
+
+
 
             }
 
