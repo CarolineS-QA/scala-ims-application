@@ -1,10 +1,11 @@
 package controllers
 
+import java.util.Calendar
+
 import configuration.MongoConfiguration
 import configuration.MongoConfiguration.{customerCollection, orderCollection}
 import javax.inject.Inject
 import model.CustomerModel
-
 
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.Logger
@@ -48,18 +49,19 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
 
 
   def orderCreateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    var productIndex: Int = 1;
-    Ok(views.html.orderCreateForm(OrderForm.form, productIndex))
+    Ok(views.html.orderCreateForm(OrderForm.form))
   }
 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
 
-    println(formData.products)
-    println(formData.username)
-    println(formData.date)
-    println(formData.totalPrice)
-    orderCollection.flatMap(_.insert.one(formData)).map(lastError =>
+
+
+    val orderData = Json.obj("username" -> formData.username, "products" -> formData.products,
+      "date" -> Calendar.getInstance().getTime.toString, "totalPrice" -> formData.totalPrice)
+
+
+    orderCollection.flatMap(_.insert.one(orderData)).map(lastError =>
       Ok(views.html.orderPage()))
   }
 
