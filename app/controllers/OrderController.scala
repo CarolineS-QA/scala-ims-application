@@ -15,6 +15,7 @@ import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json,
 import play.api.routing.Router.empty.routes
 import reactivemongo.api.bson.{BSONObjectID, document}
 import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json.compat.bson2json.fromDocumentWriter
 
 import scala.collection.mutable
 import scala.language.postfixOps
@@ -88,6 +89,17 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
       "date" -> date, "totalPrice" -> formData.totalPrice))
       .map(formData =>
       Ok(views.html.orderPage())))
+  }
+
+  def orderDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.orderDeleteForm(OrderDeleteForm.form))
+  }
+
+  def orderDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
+    val formData: OrderDeleteForm = OrderDeleteForm.form.bindFromRequest.get
+    val id = formData._id
+    val selector = document("_id" -> id)
+    orderCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.orderPage()))
   }
 
 }

@@ -43,10 +43,13 @@ GET     /orderFindAll                       controllers.OrderController.orderFin
 
 GET     /orderCreateForm                    controllers.OrderController.orderCreateForm
 GET     /orderUpdateForm                    controllers.OrderController.orderUpdateForm
+GET     /orderDeleteForm                    controllers.OrderController.orderDeleteForm
 + nocsrf
 POST    /orderForm                          controllers.OrderController.orderCreateFormAction
 + nocsrf
 POST    /orderUpdateForm                    controllers.OrderController.orderUpdateFormAction
++ nocsrf
+POST    /orderDeleteForm                    controllers.OrderController.orderDeleteFormAction
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
