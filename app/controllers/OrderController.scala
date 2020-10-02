@@ -13,7 +13,7 @@ import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponent
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
 import play.api.routing.Router.empty.routes
-import reactivemongo.api.bson.document
+import reactivemongo.api.bson.{BSONObjectID, document}
 import reactivemongo.api.commands.WriteResult
 
 import scala.collection.mutable
@@ -40,28 +40,21 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
 
   MongoConfiguration
 
-  def orderProductIncrement(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    var productCounter: Int = 2
-    productCounter += 1
-    println(productCounter)
-    Ok("")
-  }
-
-
   def orderCreateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.orderCreateForm(OrderForm.form))
   }
 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    val date = Calendar.getInstance().getTime.toString
+    val id = BSONObjectID.generate().stringify
+
 
     // Total Price will go here
 
 
-    val orderData = Json.obj("username" -> formData.username, "products" -> formData.products,
-      "date" -> Calendar.getInstance().getTime.toString, "totalPrice" -> formData.totalPrice)
-
-
+    val orderData = Json.obj("_id" -> id, "username" -> formData.username, "products" -> formData.products,
+      "date" -> date, "totalPrice" -> formData.totalPrice)
     orderCollection.flatMap(_.insert.one(orderData)).map(lastError =>
       Ok(views.html.orderPage()))
   }

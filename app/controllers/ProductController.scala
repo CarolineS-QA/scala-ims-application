@@ -111,5 +111,4 @@ class ProductController @Inject()(cc: ControllerComponents, val reactiveMongoApi
     val selector = document("name" -> name)
     productCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.productPage()))
   }
-
 }

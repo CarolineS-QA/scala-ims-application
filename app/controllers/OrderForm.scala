@@ -2,10 +2,11 @@ package controllers
 
 
 import play.api.data.{Form, Mapping}
-import play.api.data.Forms.{bigDecimal, list, longNumber, mapping, optional, text, tuple}
+import play.api.data.Forms.{bigDecimal, list, longNumber, mapping, optional, text, tuple, uuid}
 import play.api.libs.json.{Json, OWrites}
+import reactivemongo.api.bson.BSONString
 
-case class OrderForm(username: String, products: Option[List[(String, Long)]], date: String, totalPrice: BigDecimal)
+case class OrderForm(_id: String, username: String, products: Option[List[(String, Long)]], date: String, totalPrice: BigDecimal)
 case class ProductListForm(name: String, quantity: Long)
 
 object OrderForm {
@@ -19,6 +20,7 @@ object OrderForm {
 
   val form: Form[OrderForm] = Form(
     mapping(
+      "_id" -> text,
       "username" -> text,
       "products" -> optional(list(productListForm)),
       "date" -> text,

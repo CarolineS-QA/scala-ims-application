@@ -31,8 +31,8 @@
 
         @helper.inputText(orderForm("username"))
 
-
-        @helper.inputText(orderForm("date"))
+        @helper.inputText(orderForm("_id"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
+        @helper.inputText(orderForm("date"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
         @helper.inputText(orderForm("totalPrice"))
 
 
