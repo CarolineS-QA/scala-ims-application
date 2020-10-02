@@ -98,9 +98,6 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   def customerUpdateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     val username = formData.username
-    val forename = formData.forename
-    val surname = formData.surname
-    val age = formData.age
     customerCollection.flatMap(_.update(Json.obj("username" -> username),formData).map(formData =>
       Ok(views.html.customerPage())))
   }
@@ -110,7 +107,7 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   }
 
   def customerDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
-    val formData: CustomerForm = CustomerForm.form.bindFromRequest.get
+    val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
     val username = formData.username
     val selector = document("username" -> username)
 
