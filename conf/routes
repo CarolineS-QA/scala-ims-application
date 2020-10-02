@@ -20,9 +20,9 @@ GET     /customerDeleteForm                 controllers.CustomerController.custo
 + nocsrf
 POST    /customerForms                      controllers.CustomerController.customerCreateFormAction
 + nocsrf
-POST     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
+POST     /customerUpdateForm                controllers.CustomerController.customerUpdateFormAction
 + nocsrf
-POST  /customerDeleteForm                   controllers.CustomerController.customerDeleteFormAction
+POST     /customerDeleteForm                controllers.CustomerController.customerDeleteFormAction
 
 #Product
 GET     /productFindAll                     controllers.ProductController.productFindAll()
@@ -30,11 +30,13 @@ GET     /findByProductName                  controllers.ProductController.findBy
 
 GET     /productCreateForm                  controllers.ProductController.productCreateForm
 GET     /productUpdateForm                  controllers.ProductController.productUpdateForm
+GET     /productDeleteForm                  controllers.ProductController.productDeleteForm
 + nocsrf
 POST    /productForm                        controllers.ProductController.productCreateFormAction
 + nocsrf
-POST     /productUpdateForm                 controllers.ProductController.productUpdateFormAction
-
+POST    /productUpdateForm                  controllers.ProductController.productUpdateFormAction
++ nocsrf
+POST    /productDeleteForm                  controllers.ProductController.productDeleteFormAction
 
 #Order
 GET     /orderFindAll                       controllers.OrderController.orderFindAll()

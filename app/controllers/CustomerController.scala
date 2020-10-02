@@ -103,7 +103,7 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   }
 
   def customerDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerDeleteForm(CustomerForm.form))
+    Ok(views.html.customerDeleteForm(CustomerDeleteForm.form))
   }
 
   def customerDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>

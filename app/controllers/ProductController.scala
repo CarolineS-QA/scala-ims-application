@@ -12,6 +12,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
 import reactivemongo.api.bson.document
 import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json.compat.bson2json.fromDocumentWriter
 
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
@@ -98,6 +99,17 @@ class ProductController @Inject()(cc: ControllerComponents, val reactiveMongoApi
     val name = formData.name
     productCollection.flatMap(_.update(Json.obj("name" -> name),formData).map(formData =>
       Ok(views.html.productPage())))
+  }
+
+  def productDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.productDeleteForm(ProductDeleteForm.form))
+  }
+
+  def productDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
+    val formData: ProductDeleteForm = ProductDeleteForm.form.bindFromRequest.get
+    val name = formData.name
+    val selector = document("name" -> name)
+    productCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.productPage()))
   }
 
 }
