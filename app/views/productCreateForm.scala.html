@@ -1,0 +1,19 @@
+@import helper._
+
+@(productForm: Form[ProductForm])(implicit request: RequestHeader, messages: Messages)
+
+@main("Scala Play forms tutorial") {
+<h1>Scala Play forms tutorial</h1>
+<div style="margin-left: 48px">
+    @form(action = routes.ProductController.productCreateFormAction()) {
+    @helper.inputText(productForm("_id"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
+    @helper.inputText(productForm("name"))
+    @helper.inputText(productForm("category"))
+    @helper.inputText(productForm("price"))
+    @helper.inputText(productForm("inventory"))
+
+
+    <input type="submit" value="Submit">
+</div>
+    }
+}

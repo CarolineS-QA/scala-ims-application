@@ -1,0 +1,56 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                                   controllers.HomeController.index()
+GET     /customerPage                       controllers.HomeController.customerPage()
+GET     /productPage                        controllers.HomeController.productPage()
+GET     /orderPage                          controllers.HomeController.orderPage()
+
+
+# Customer
+GET     /customerFindAll                    controllers.CustomerController.customerFindAll()
+GET     /findByUsername                     controllers.CustomerController.findByUsername(username: String)
+
+GET     /customerCreateForm                 controllers.CustomerController.customerCreateForm
+GET     /customerUpdateForm                 controllers.CustomerController.customerUpdateForm
+GET     /customerDeleteForm                 controllers.CustomerController.customerDeleteForm
++ nocsrf
+POST    /customerForms                      controllers.CustomerController.customerCreateFormAction
++ nocsrf
+POST     /customerUpdateForm                controllers.CustomerController.customerUpdateFormAction
++ nocsrf
+POST     /customerDeleteForm                controllers.CustomerController.customerDeleteFormAction
+
+#Product
+GET     /productFindAll                     controllers.ProductController.productFindAll()
+GET     /findByProductName                  controllers.ProductController.findByProductName(name: String)
+
+GET     /productCreateForm                  controllers.ProductController.productCreateForm
+GET     /productUpdateForm                  controllers.ProductController.productUpdateForm
+GET     /productDeleteForm                  controllers.ProductController.productDeleteForm
++ nocsrf
+POST    /productForm                        controllers.ProductController.productCreateFormAction
++ nocsrf
+POST    /productUpdateForm                  controllers.ProductController.productUpdateFormAction
++ nocsrf
+POST    /productDeleteForm                  controllers.ProductController.productDeleteFormAction
+
+#Order
+GET     /orderFindAll                       controllers.OrderController.orderFindAll()
+
+GET     /orderCreateForm                    controllers.OrderController.orderCreateForm
+GET     /orderUpdateForm                    controllers.OrderController.orderUpdateForm
+GET     /orderDeleteForm                    controllers.OrderController.orderDeleteForm
++ nocsrf
+POST    /orderForm                          controllers.OrderController.orderCreateFormAction
++ nocsrf
+POST    /orderUpdateForm                    controllers.OrderController.orderUpdateFormAction
++ nocsrf
+POST    /orderDeleteForm                    controllers.OrderController.orderDeleteFormAction
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
