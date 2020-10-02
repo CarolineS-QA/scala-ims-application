@@ -4,14 +4,14 @@ import play.api.data.Form
 import play.api.data.Forms.{mapping, text}
 import play.api.libs.json.{Json, OWrites}
 
-case class ProductDeleteForm(name: String)
+case class ProductDeleteForm(_id: String)
 
 
 object ProductDeleteForm {
   implicit val productWrite: OWrites[ProductForm] = Json.writes[ProductForm]
   val form: Form[ProductDeleteForm] = Form(
     mapping(
-      "name" -> text
+      "_id" -> text,
     )(ProductDeleteForm.apply)(ProductDeleteForm.unapply)
   )
 }
