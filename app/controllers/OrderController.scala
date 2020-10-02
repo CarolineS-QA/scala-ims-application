@@ -49,9 +49,7 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
     val date = Calendar.getInstance().getTime.toString
     val id = BSONObjectID.generate().stringify
 
-
     // Total Price will go here
-
 
     val orderData = Json.obj("_id" -> id, "username" -> formData.username, "products" -> formData.products,
       "date" -> date, "totalPrice" -> formData.totalPrice)
@@ -75,6 +73,21 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
     futureOrdersJsonArray.map { orders =>
       Ok(orders)
     }
+  }
+
+  def orderUpdateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.orderUpdateForm(OrderForm.form))
+  }
+
+  def orderUpdateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
+    val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    val id = formData._id
+    val date = Calendar.getInstance().getTime.toString
+    orderCollection.flatMap(_.update(Json.obj("_id" -> id),
+      Json.obj("username" -> formData.username, "products" -> formData.products,
+      "date" -> date, "totalPrice" -> formData.totalPrice))
+      .map(formData =>
+      Ok(views.html.orderPage())))
   }
 
 }
