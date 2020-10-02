@@ -7,10 +7,10 @@
 <div style="margin-left: 48px">
     @form(action = routes.ProductController.productUpdateFormAction()) {
     @helper.inputText(productForm("_id"))
-    @inputText(productForm("name"))
-    @inputText(productForm("category"))
-    @inputText(productForm("price"))
-    @inputText(productForm("inventory"))
+    @helper.inputText(productForm("name"))
+    @helper.inputText(productForm("category"))
+    @helper.inputText(productForm("price"))
+    @helper.inputText(productForm("inventory"))
 
 
     <input type="submit" value="Submit">

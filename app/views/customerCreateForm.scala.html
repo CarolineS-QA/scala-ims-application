@@ -7,10 +7,10 @@
 <div style="margin-left: 48px">
     @form(action = routes.CustomerController.customerCreateFormAction()) {
     @helper.inputText(customerForm("_id"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
-    @inputText(customerForm("username"))
-    @inputText(customerForm("forename"))
-    @inputText(customerForm("surname"))
-    @inputText(customerForm("age"))
+    @helper.inputText(customerForm("username"))
+    @helper.inputText(customerForm("forename"))
+    @helper.inputText(customerForm("surname"))
+    @helper.inputText(customerForm("age"))
 
 
     <input type="submit" value="Submit">
