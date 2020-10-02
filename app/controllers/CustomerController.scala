@@ -10,8 +10,9 @@ import play.api.Logger
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Request}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
-import reactivemongo.api.bson.document
+import reactivemongo.api.bson.{BSONObjectID, document}
 import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json.compat.bson2json.fromDocumentWriter
 
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
@@ -43,7 +44,9 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
 
   def customerCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
-    customerCollection.flatMap(_.insert.one(formData)).map(lastError =>
+    val id = BSONObjectID.generate().stringify
+    customerCollection.flatMap(_.insert.one(Json.obj("_id" -> id, "username" -> formData.username,
+      "forename" -> formData.forename, "surname" -> formData.surname, "age" -> formData.age))).map(lastError =>
       Ok(views.html.customerPage()))
   }
 
@@ -97,11 +100,10 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
   def customerUpdateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: CustomerForm = CustomerForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
     val username = formData.username
-    val forename = formData.forename
-    val surname = formData.surname
-    val age = formData.age
-    customerCollection.flatMap(_.update.one(Json.obj("username" -> username), Json.obj("forename" -> forename, "surname" -> surname, "age" -> age))).map(lastError =>
-      Ok(views.html.customerPage()))
+    val id = formData._id
+    customerCollection.flatMap(_.update(Json.obj("username" -> username),Json.obj(
+    "username" -> username, "forename" -> formData.forename, "surname" -> formData.surname, "age" -> formData.age))
+      .map(formData => Ok(views.html.customerPage())))
   }
 
   def customerDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
@@ -110,7 +112,8 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
 
   def customerDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
     val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
-    val username = formData.username
-    customerCollection.flatMap(_.delete.one(Json.obj("username" -> username))).map(_ => Ok(views.html.customerPage()))
+    val id = formData._id
+    val selector = document("_id" -> id)
+    customerCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.customerPage()))
   }
 }

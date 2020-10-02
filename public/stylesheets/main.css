@@ -43,3 +43,39 @@ hr {
     margin-bottom: 12px; 
     color: #00ceff;
 }
+
+
+body {
+    padding-top: 60px; /* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+
+div.jobs-list a[data-toggle="collapse"] {
+    display: block;
+    padding: 10px;
+    margin-right: 240px;
+}
+
+div.job-data-delete, div.job-data-add {
+    float: right;
+    margin-right: 240px;
+}
+
+.table-fixed-first-col {
+    width: auto;
+}
+
+.form-inline-control {
+    display: inline-block;
+    margin: 3px 2px;
+    margin-bottom: 6px;
+    margin-right: 220px;
+}
+
+.form-horizontal-inline {
+    margin-bottom: 0px;
+}
+
+.job-data-map {
+    margin-right: 220px;
+}

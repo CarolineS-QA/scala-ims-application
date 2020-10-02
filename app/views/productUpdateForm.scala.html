@@ -5,8 +5,8 @@
 @main("Scala Play forms tutorial") {
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
-    @form(action = routes.ProductController.productCreateFormAction()) {
-    @helper.inputText(productForm("_id"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
+    @form(action = routes.ProductController.productUpdateFormAction()) {
+    @helper.inputText(productForm("_id"))
     @helper.inputText(productForm("name"))
     @helper.inputText(productForm("category"))
     @helper.inputText(productForm("price"))

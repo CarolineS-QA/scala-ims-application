@@ -6,10 +6,11 @@
 <h1>Scala Play forms tutorial</h1>
 <div style="margin-left: 48px">
     @form(action = routes.CustomerController.customerUpdateFormAction()) {
-    @inputText(customerUpdateForm("username"))
-    @inputText(customerUpdateForm("forename"))
-    @inputText(customerUpdateForm("surname"))
-    @inputText(customerUpdateForm("age"))
+    @helper.inputText(customerUpdateForm("_id"), 'type -> "hidden", '_label -> "", 'style -> "display: none")
+    @helper.inputText(customerUpdateForm("username"))
+    @helper.inputText(customerUpdateForm("forename"))
+    @helper.inputText(customerUpdateForm("surname"))
+    @helper.inputText(customerUpdateForm("age"))
 
 
     <input type="submit" value="Submit">

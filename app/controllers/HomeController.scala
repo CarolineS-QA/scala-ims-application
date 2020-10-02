@@ -57,11 +57,10 @@ class HomeController @Inject()(cc: ControllerComponents, val reactiveMongoApi: R
   def customerPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.customerPage())
   }
-
   def productPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.productPage())
   }
-  
+
   def orderPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.orderPage())
   }
