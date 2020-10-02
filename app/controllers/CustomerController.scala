@@ -12,6 +12,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json, Reads, __}
 import reactivemongo.api.bson.document
 import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json.compat.bson2json.fromDocumentWriter
 
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
@@ -100,17 +101,20 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
     val forename = formData.forename
     val surname = formData.surname
     val age = formData.age
-    customerCollection.flatMap(_.update.one(Json.obj("username" -> username), formData).map(formData =>
+    customerCollection.flatMap(_.update(Json.obj("username" -> username),formData).map(formData =>
       Ok(views.html.customerPage())))
   }
 
   def customerDeleteForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.customerDeleteForm(CustomerDeleteForm.form))
+    Ok(views.html.customerDeleteForm(CustomerForm.form))
   }
 
   def customerDeleteFormAction(): Action[AnyContent] = Action.async { implicit request =>
-    val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
+    val formData: CustomerForm = CustomerForm.form.bindFromRequest.get
     val username = formData.username
-    customerCollection.flatMap(_.delete.one(Json.obj("username" -> username))).map(_ => Ok(views.html.customerPage()))
+    val selector = document("username" -> username)
+
+
+    customerCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.customerPage()))
   }
 }

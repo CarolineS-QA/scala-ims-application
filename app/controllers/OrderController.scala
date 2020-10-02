@@ -55,6 +55,7 @@ class OrderController @Inject()(cc: ControllerComponents, val reactiveMongoApi: 
   def orderCreateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
     val formData: OrderForm = OrderForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
 
+    // Total Price will go here
 
 
     val orderData = Json.obj("username" -> formData.username, "products" -> formData.products,

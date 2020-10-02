@@ -20,8 +20,9 @@ GET     /customerDeleteForm                 controllers.CustomerController.custo
 + nocsrf
 POST    /customerForms                      controllers.CustomerController.customerCreateFormAction
 + nocsrf
-PUT     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
-DELETE  /customerDeleteForm                 controllers.CustomerController.customerDeleteFormAction
+POST     /customerUpdateForm                 controllers.CustomerController.customerUpdateFormAction
++ nocsrf
+POST  /customerDeleteForm                   controllers.CustomerController.customerDeleteFormAction
 
 #Product
 GET     /productFindAll                     controllers.ProductController.productFindAll()
