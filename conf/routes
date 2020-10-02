@@ -29,8 +29,12 @@ GET     /productFindAll                     controllers.ProductController.produc
 GET     /findByProductName                  controllers.ProductController.findByProductName(name: String)
 
 GET     /productCreateForm                  controllers.ProductController.productCreateForm
+GET     /productUpdateForm                  controllers.ProductController.productUpdateForm
 + nocsrf
 POST    /productForm                        controllers.ProductController.productCreateFormAction
++ nocsrf
+POST     /productUpdateForm                 controllers.ProductController.productUpdateFormAction
+
 
 #Order
 GET     /orderFindAll                       controllers.OrderController.orderFindAll()

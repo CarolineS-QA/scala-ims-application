@@ -88,4 +88,16 @@ class ProductController @Inject()(cc: ControllerComponents, val reactiveMongoApi
       Ok(products)
     }
   }
+
+  def productUpdateForm(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.productUpdateForm(ProductForm.form))
+  }
+
+  def productUpdateFormAction(): Action[AnyContent] = Action.async  { implicit request =>
+    val formData: ProductForm = ProductForm.form.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
+    val name = formData.name
+    productCollection.flatMap(_.update(Json.obj("name" -> name),formData).map(formData =>
+      Ok(views.html.productPage())))
+  }
+
 }

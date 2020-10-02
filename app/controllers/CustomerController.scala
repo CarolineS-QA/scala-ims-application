@@ -110,8 +110,6 @@ class CustomerController @Inject()(cc: ControllerComponents, val reactiveMongoAp
     val formData: CustomerDeleteForm = CustomerDeleteForm.form.bindFromRequest.get
     val username = formData.username
     val selector = document("username" -> username)
-
-
     customerCollection.flatMap(_.remove(selector)).map(selector => Ok(views.html.customerPage()))
   }
 }
